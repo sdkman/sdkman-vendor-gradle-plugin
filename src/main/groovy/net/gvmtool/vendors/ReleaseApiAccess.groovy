@@ -13,7 +13,7 @@ trait ReleaseApiAccess {
     }
 
     Response put(RESTClient client, String path, String token, Map values) {
-        client.put(path: "/default", headers: ["Authorization": "Bearer $token"]) {
+        client.put(path: path, headers: ["Authorization": "Bearer $token"]) {
             type "application/json"
             json values
         }
