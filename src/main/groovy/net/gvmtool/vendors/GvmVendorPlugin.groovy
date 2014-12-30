@@ -6,7 +6,7 @@ import org.gradle.api.Project
 class GvmVendorPlugin implements Plugin<Project> {
     @Override
     void apply(Project target) {
-        target.task('gvmReleaseVersion', type: GvmReleaseVersionTask)
-        target.task('gvmDefaultVersion', type: GvmDefaultVersionTask)
+        target.extensions.create 'gvm', GvmConfig
+        target.task 'gvmReleaseVersion', type: GvmReleaseVersionTask
     }
 }
