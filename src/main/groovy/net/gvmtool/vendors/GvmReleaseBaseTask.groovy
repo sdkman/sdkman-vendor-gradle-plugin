@@ -5,7 +5,7 @@ import org.gradle.api.tasks.TaskAction
 import wslite.http.auth.HTTPBasicAuthorization
 import wslite.rest.RESTClient
 
-abstract class GvmReleaseApiTask extends DefaultTask{
+abstract class GvmReleaseBaseTask extends DefaultTask {
 
     protected RESTClient restClient
     protected String accessToken

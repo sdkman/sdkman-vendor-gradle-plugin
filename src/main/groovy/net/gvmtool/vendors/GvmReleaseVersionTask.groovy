@@ -1,6 +1,6 @@
 package net.gvmtool.vendors
 
-class GvmReleaseVersionTask extends GvmReleaseApiTask implements ExceptionHandling, ReleaseApiAccess {
+class GvmReleaseVersionTask extends GvmReleaseBaseTask implements ExceptionHandling, ReleaseApiAccess {
 
     void execute(GvmConfig gvm) {
         withTry(logger) {
