@@ -1,6 +1,6 @@
 package net.gvmtool.vendors
 
-class GvmReleaseVersionTask extends GvmReleaseBaseTask implements ExceptionHandling, ReleaseApiAccess {
+class GvmReleaseVersionTask extends GvmReleaseBaseTask implements ExceptionHandling, ApiAccess {
 
     final static RELEASE_ENDPOINT = "/release"
 

@@ -3,7 +3,7 @@ package net.gvmtool.vendors
 import wslite.rest.RESTClient
 import wslite.rest.Response
 
-trait ReleaseApiAccess {
+trait ApiAccess {
 
     Response post(RESTClient client, String path, String token, Map values) {
         client.post(path: path, headers: ["Authorization": "Bearer $token"]) {
