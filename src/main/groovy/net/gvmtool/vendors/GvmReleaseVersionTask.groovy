@@ -1,7 +1,12 @@
 package net.gvmtool.vendors
 
-import org.gradle.api.DefaultTask
+class GvmReleaseVersionTask extends GvmReleaseApiTask implements ExceptionHandling, ReleaseApiAccess {
 
-class GvmReleaseVersionTask extends DefaultTask {
-
+    void execute(GvmConfig gvm) {
+        withTry(logger) {
+            logger.quiet("Releasing $gvm.candidate $gvm.version...")
+            def response = postRelease(restClient, accessToken, gvm.candidate, gvm.version, gvm.url)
+            logger.info("${response.statusCode}: ${response.json.message}...")
+        }
+    }
 }
