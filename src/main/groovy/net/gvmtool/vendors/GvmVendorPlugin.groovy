@@ -8,5 +8,6 @@ class GvmVendorPlugin implements Plugin<Project> {
     void apply(Project target) {
         target.extensions.create 'gvm', GvmConfig
         target.task 'gvmReleaseVersion', type: GvmReleaseVersionTask
+        target.task 'gvmDefaultVersion', type: GvmDefaultVersionTask
     }
 }
