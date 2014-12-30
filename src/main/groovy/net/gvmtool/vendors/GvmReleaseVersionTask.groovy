@@ -6,7 +6,7 @@ class GvmReleaseVersionTask extends GvmReleaseBaseTask implements ExceptionHandl
         withTry(logger) {
             logger.quiet("Releasing $gvm.candidate $gvm.version...")
             def response = postRelease(restClient, accessToken, gvm.candidate, gvm.version, gvm.url)
-            logger.info("${response.statusCode}: ${response.json.message}...")
+            logger.quiet("Response: ${response.statusCode}: ${response.json.message}...")
         }
     }
 }
