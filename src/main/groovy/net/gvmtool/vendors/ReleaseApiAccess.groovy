@@ -5,10 +5,10 @@ import wslite.rest.Response
 
 trait ReleaseApiAccess {
 
-    Response postRelease(RESTClient client, String token, String candidate, String version, String url) {
-        client.post(path: "/release", headers: ["Authorization": "Bearer $token"]) {
+    Response post(RESTClient client, String path, String token, Map values) {
+        client.post(path: path, headers: ["Authorization": "Bearer $token"]) {
             type "application/json"
-            json candidate: candidate, version: version, url: url
+            json values
         }
     }
 
