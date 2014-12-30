@@ -11,7 +11,12 @@ repositories {
 
 dependencies {
     compile gradleApi()
-    testCompile 'org.spockframework:spock-maven:0.7-groovy-2.0'
+
+    compile "org.codehaus.groovy:groovy-all:2.3.6"
+    compile 'com.github.groovy-wslite:groovy-wslite:0.8.0'
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    testCompile 'junit:junit:4.11'
+    testCompile 'com.github.tomakehurst:wiremock:1.46'
 }
 
 apply plugin: 'distribution'
