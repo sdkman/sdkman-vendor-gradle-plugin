@@ -4,9 +4,6 @@ import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.URL
 
 import javax.validation.constraints.NotNull
-import org.gradle.api.GradleException
-
-import javax.validation.constraints.Size
 
 class GvmConfig {
 
@@ -37,18 +34,4 @@ class GvmConfig {
     @URL
     String url
 
-    def validate() {
-        [
-                "apiBaseUrl"         : apiBaseUrl,
-                "releaseClientId"    : releaseClientId,
-                "releaseClientSecret": releaseClientSecret,
-                "username"           : username,
-                "password"           : password,
-                "candidate"          : candidate,
-                "version"            : version,
-                "url"                : url
-        ].each { name, field ->
-            if (!field) throw new GradleException("Missing field in config: $name")
-        }
-    }
 }

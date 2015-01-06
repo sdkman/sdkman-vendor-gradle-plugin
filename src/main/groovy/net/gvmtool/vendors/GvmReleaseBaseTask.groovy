@@ -1,35 +1,50 @@
 package net.gvmtool.vendors
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import wslite.http.auth.HTTPBasicAuthorization
 import wslite.rest.RESTClient
+
+import javax.validation.Validation
+import javax.validation.ValidatorFactory
 
 abstract class GvmReleaseBaseTask extends DefaultTask {
 
     protected RESTClient restClient
     protected String accessToken
 
+    protected ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()
+
     @TaskAction
-    void start(){
+    void start() {
         GvmConfig gvmConfig = project.gvm
-        gvmConfig.validate()
+        withValid(gvmConfig) {
+            restClient = prepareClient(
+                    gvmConfig.apiBaseUrl,
+                    gvmConfig.releaseClientId,
+                    gvmConfig.releaseClientSecret)
 
-        restClient = prepareClient(
-                gvmConfig.apiBaseUrl,
-                gvmConfig.releaseClientId,
-                gvmConfig.releaseClientSecret)
+            logger.quiet("Getting access token...")
+            accessToken = oauthAccessToken(
+                    restClient,
+                    gvmConfig.username,
+                    gvmConfig.password,
+                    gvmConfig.releaseClientId,
+                    gvmConfig.releaseClientSecret)
 
-        logger.quiet("Getting access token...")
-        accessToken = oauthAccessToken(
-                restClient,
-                gvmConfig.username,
-                gvmConfig.password,
-                gvmConfig.releaseClientId,
-                gvmConfig.releaseClientSecret)
+            execute(gvmConfig)
+        }
+    }
 
+    private withValid(GvmConfig config, Closure call) {
+        def constraints = validatorFactory.validator.validate(config)
+        if(constraints.size()) {
+            def message = constraints.collect { "${it.propertyPath} ${it.message}" }.join("; ")
+            throw new GradleException("Configuration invalid: " + message)
+        }
 
-        execute(gvmConfig)
+        call()
     }
 
     private static prepareClient(String apiBaseUrl, String clientId, String clientSecret) {
