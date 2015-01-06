@@ -1,20 +1,14 @@
 package net.gvmtool.vendors
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import wslite.http.auth.HTTPBasicAuthorization
 import wslite.rest.RESTClient
 
-import javax.validation.Validation
-import javax.validation.ValidatorFactory
-
-abstract class GvmReleaseBaseTask extends DefaultTask {
+abstract class GvmReleaseBaseTask extends DefaultTask implements ConfigValidation {
 
     protected RESTClient restClient
     protected String accessToken
-
-    protected ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()
 
     @TaskAction
     void start() {
@@ -35,16 +29,6 @@ abstract class GvmReleaseBaseTask extends DefaultTask {
 
             execute(gvmConfig)
         }
-    }
-
-    private withValid(GvmConfig config, Closure call) {
-        def constraints = validatorFactory.validator.validate(config)
-        if(constraints.size()) {
-            def message = constraints.collect { "${it.propertyPath} ${it.message}" }.join("; ")
-            throw new GradleException("Configuration invalid: " + message)
-        }
-
-        call()
     }
 
     private static prepareClient(String apiBaseUrl, String clientId, String clientSecret) {
