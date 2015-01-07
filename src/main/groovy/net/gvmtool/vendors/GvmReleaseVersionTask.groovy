@@ -4,6 +4,10 @@ class GvmReleaseVersionTask extends GvmReleaseBaseTask implements ExceptionHandl
 
     final static RELEASE_ENDPOINT = "/release"
 
+    GvmReleaseVersionTask() {
+        description = "Release a new Candidate Version on GVM."
+    }
+
     void execute(GvmConfig gvm) {
         withTry(logger) {
             logger.quiet("Releasing $gvm.candidate $gvm.version...")

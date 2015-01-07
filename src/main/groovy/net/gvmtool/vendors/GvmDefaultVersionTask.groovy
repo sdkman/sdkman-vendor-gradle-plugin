@@ -4,6 +4,10 @@ class GvmDefaultVersionTask extends GvmReleaseBaseTask implements ExceptionHandl
 
     static final DEFAULT_ENDPOINT = "/default"
 
+    GvmDefaultVersionTask() {
+        description = "Make an existing Candidate Version the new Default on GVM."
+    }
+
     void execute(GvmConfig config) {
         withTry(logger) {
             logger.quiet("Releasing $config.candidate $config.version...")
