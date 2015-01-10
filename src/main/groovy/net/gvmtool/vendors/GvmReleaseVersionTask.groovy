@@ -1,6 +1,6 @@
 package net.gvmtool.vendors
 
-class GvmReleaseVersionTask extends GvmReleaseBaseTask {
+class GvmReleaseVersionTask extends GvmVendorBaseTask {
 
     final static RELEASE_ENDPOINT = "/release"
 
