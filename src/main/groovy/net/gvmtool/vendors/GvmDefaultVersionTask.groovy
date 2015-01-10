@@ -1,6 +1,6 @@
 package net.gvmtool.vendors
 
-class GvmDefaultVersionTask extends GvmReleaseBaseTask implements ExceptionHandling, ApiAccess {
+class GvmDefaultVersionTask extends GvmReleaseBaseTask {
 
     static final DEFAULT_ENDPOINT = "/default"
 

@@ -1,6 +1,6 @@
 package net.gvmtool.vendors
 
-class GvmReleaseVersionTask extends GvmReleaseBaseTask implements ExceptionHandling, ApiAccess {
+class GvmReleaseVersionTask extends GvmReleaseBaseTask {
 
     final static RELEASE_ENDPOINT = "/release"
 
@@ -8,10 +8,10 @@ class GvmReleaseVersionTask extends GvmReleaseBaseTask implements ExceptionHandl
         description = "Release a new Candidate Version on GVM."
     }
 
-    void execute(GvmConfig gvm) {
+    void execute(GvmConfig config) {
         withTry(logger) {
-            logger.quiet("Releasing $gvm.candidate $gvm.version...")
-            def values = [candidate: gvm.candidate, version: gvm.version, url: gvm.url]
+            logger.quiet("Releasing $config.candidate $config.version...")
+            def values = [candidate: config.candidate, version: config.version, url: config.url]
             def response = post(restClient, RELEASE_ENDPOINT, accessToken, values)
             logger.quiet("Response: ${response.statusCode}: ${response.json.message}...")
         }
