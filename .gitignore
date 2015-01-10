@@ -1,5 +1,6 @@
 .gitignore
 .gradle
+.idea
 gradle-gvm-vendor-plugin.iml
 gradle-gvm-vendor-plugin.ipr
 gradle-gvm-vendor-plugin.iws
