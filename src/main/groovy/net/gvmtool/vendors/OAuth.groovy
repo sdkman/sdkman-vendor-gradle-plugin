@@ -6,7 +6,7 @@ trait OAuth {
 
     String accessToken
     
-    def withAuth(RESTClient restClient, GvmConfig config, Closure call) {
+    def withAuth(RESTClient restClient, GvmExtension config, Closure call) {
         accessToken = oauthAccessToken(
                 restClient,
                 config.username,

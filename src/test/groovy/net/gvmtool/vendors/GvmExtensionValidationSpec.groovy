@@ -6,13 +6,13 @@ import javax.validation.ConstraintViolation
 import javax.validation.Validation
 import javax.validation.Validator
 
-class GvmConfigSpec extends Specification {
+class GvmExtensionValidationSpec extends Specification {
 
     static validatorFactory
 
     Validator validator
 
-    GvmConfig config = new GvmConfig(
+    GvmExtension config = new GvmExtension(
         apiBaseUrl: "https://release-dev.cfapps.io",
         releaseClientId: "release_client_id",
         releaseClientSecret: "82V6G63PsgL0zn3eOvCLO9Ro",

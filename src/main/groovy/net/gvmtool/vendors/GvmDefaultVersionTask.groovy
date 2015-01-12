@@ -8,7 +8,7 @@ class GvmDefaultVersionTask extends GvmVendorBaseTask {
         description = "Make an existing Candidate Version the new Default on GVM."
     }
 
-    void execute(GvmConfig config) {
+    void execute(GvmExtension config) {
         logger.quiet("Releasing $config.candidate $config.version...")
         def values = [candidate: config.candidate, version: config.version]
         def response = put(restClient, DEFAULT_ENDPOINT, accessToken, values)

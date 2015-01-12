@@ -8,7 +8,7 @@ class GvmReleaseVersionTask extends GvmVendorBaseTask {
         description = "Release a new Candidate Version on GVM."
     }
 
-    void execute(GvmConfig config) {
+    void execute(GvmExtension config) {
         logger.quiet("Releasing $config.candidate $config.version...")
         def values = [candidate: config.candidate, version: config.version, url: config.url]
         def response = post(restClient, RELEASE_ENDPOINT, accessToken, values)

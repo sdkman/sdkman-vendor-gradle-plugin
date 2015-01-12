@@ -8,7 +8,7 @@ abstract class GvmVendorBaseTask extends DefaultTask implements ConfigValidation
 
     @TaskAction
     void start() {
-        GvmConfig config = project.gvm
+        GvmExtension config = project.gvm
         withValid(config) {
             withTry(logger){
                 withAuth(restClient, config){
@@ -18,6 +18,6 @@ abstract class GvmVendorBaseTask extends DefaultTask implements ConfigValidation
         }
     }
 
-    abstract void execute(GvmConfig config)
+    abstract void execute(GvmExtension config)
 
 }

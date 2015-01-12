@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.URL
 
 import javax.validation.constraints.NotNull
 
-class GvmConfig {
+class GvmExtension {
 
     @NotNull
     @URL

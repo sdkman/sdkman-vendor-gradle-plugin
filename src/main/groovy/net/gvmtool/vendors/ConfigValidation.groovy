@@ -9,7 +9,7 @@ trait ConfigValidation {
 
     protected ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()
 
-    def withValid(GvmConfig config, Closure call) {
+    def withValid(GvmExtension config, Closure call) {
         def constraints = validatorFactory.validator.validate(config)
         if(constraints.size()) {
             def message = constraints.collect { "${it.propertyPath} ${it.message}" }.join("; ")
