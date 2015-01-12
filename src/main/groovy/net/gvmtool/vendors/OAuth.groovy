@@ -11,8 +11,8 @@ trait OAuth {
                 restClient,
                 config.username,
                 config.password,
-                config.releaseClientId,
-                config.releaseClientSecret)
+                config.clientId,
+                config.clientSecret)
         call()
     }
 

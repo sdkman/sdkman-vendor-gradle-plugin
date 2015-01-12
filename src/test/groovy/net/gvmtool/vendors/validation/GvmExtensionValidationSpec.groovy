@@ -14,9 +14,9 @@ class GvmExtensionValidationSpec extends Specification {
     Validator validator
 
     GvmExtension config = new GvmExtension(
-        apiBaseUrl: "https://release-dev.cfapps.io",
-        releaseClientId: "release_client_id",
-        releaseClientSecret: "82V6G63PsgL0zn3eOvCLO9Ro",
+        apiUrl: "https://release-dev.cfapps.io",
+        clientId: "release_client_id",
+        clientSecret: "82V6G63PsgL0zn3eOvCLO9Ro",
         username: "release_admin",
         password: "some_password",
         candidate: "grails",
@@ -32,9 +32,9 @@ class GvmExtensionValidationSpec extends Specification {
         validator = validatorFactory.validator
     }
 
-    void "should validate apiBaseUrl"() {
+    void "should validate apiUrl"() {
         setup:
-        config.apiBaseUrl = url
+        config.apiUrl = url
         def constraints = validator.validate(config)
 
         expect:
@@ -48,9 +48,9 @@ class GvmExtensionValidationSpec extends Specification {
         "https://release-dev.cfapps.io" |    0 | "no message"
     }
 
-    void "should validate releaseClientId is not null"() {
+    void "should validate clientId is not null"() {
         given:
-        config.releaseClientId = null
+        config.clientId = null
 
         when:
         def constraints = validator.validate(config)
@@ -60,9 +60,9 @@ class GvmExtensionValidationSpec extends Specification {
         extractMessage(constraints) == "may not be null"
     }
 
-    void "should validate releaseClientSecret"() {
+    void "should validate clientSecret"() {
         given:
-        config.releaseClientSecret = releaseClientSecret
+        config.clientSecret = clientSecret
         def constraints = validator.validate(config)
 
         expect:
@@ -70,7 +70,7 @@ class GvmExtensionValidationSpec extends Specification {
         extractMessage(constraints) == message
 
         where:
-        releaseClientSecret | size | message
+        clientSecret | size | message
         null                         |    1 | "may not be null"
         "abcdef"                     |    1 | "must be 24 characters long"
         "82V6G63PsgL0zn3eOvCLO9Ro1"  |    1 | "must be 24 characters long"

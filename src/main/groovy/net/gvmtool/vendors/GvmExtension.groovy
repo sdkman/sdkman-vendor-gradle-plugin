@@ -9,14 +9,14 @@ class GvmExtension {
 
     @NotNull
     @URL
-    String apiBaseUrl = "https://release-dev.cfapps.io"
+    String apiUrl = "https://release-dev.cfapps.io"
 
     @NotNull
-    String releaseClientId
+    String clientId
 
     @NotNull
     @Length(min = 24, max = 24, message = "must be 24 characters long")
-    String releaseClientSecret
+    String clientSecret
 
     @NotNull
     String username
