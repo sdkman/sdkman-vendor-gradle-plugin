@@ -1,5 +1,6 @@
-package net.gvmtool.vendors
+package net.gvmtool.vendors.validation
 
+import net.gvmtool.vendors.GvmExtension
 import org.gradle.api.GradleException
 
 import javax.validation.Validation

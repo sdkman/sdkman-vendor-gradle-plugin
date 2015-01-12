@@ -1,5 +1,6 @@
-package net.gvmtool.vendors
+package net.gvmtool.vendors.validation
 
+import net.gvmtool.vendors.GvmExtension
 import spock.lang.Specification
 
 import javax.validation.ConstraintViolation

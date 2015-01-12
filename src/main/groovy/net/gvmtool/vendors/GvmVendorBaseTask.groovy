@@ -1,5 +1,6 @@
 package net.gvmtool.vendors
 
+import net.gvmtool.vendors.validation.ConfigValidation
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
