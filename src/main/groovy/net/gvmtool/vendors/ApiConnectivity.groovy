@@ -7,8 +7,8 @@ trait ApiConnectivity {
 
     RESTClient restClient
 
-    def withConnection(Map config, Closure call) {
-        restClient = prepareClient(config.baseUrl, config.clientId, config.clientSecret)
+    def withConnection(GvmExtension config, Closure call) {
+        restClient = prepareClient(config.apiUrl, config.clientId, config.clientSecret)
         call()
     }
 

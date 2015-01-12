@@ -12,8 +12,10 @@ abstract class GvmVendorBaseTask extends DefaultTask implements ConfigValidation
         GvmExtension config = project.gvm
         withValid(config) {
             withTry(logger){
-                withAuth(restClient, config){
-                    execute(config)
+                withConnection(config){
+                    withAuth(restClient, config){
+                        execute(config)
+                    }
                 }
             }
         }
