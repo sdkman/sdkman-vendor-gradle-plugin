@@ -1,20 +1,12 @@
 package net.gvmtool.vendors
 
-import wslite.http.auth.HTTPBasicAuthorization
 import wslite.rest.RESTClient
 
-trait OAuthConnectivity {
+trait OAuth {
 
-    RESTClient restClient
     String accessToken
     
-    def withAuth(GvmConfig config, Closure call) {
-        restClient = prepareClient(
-                config.apiBaseUrl,
-                config.releaseClientId,
-                config.releaseClientSecret)
-
-        //logger.quiet("Getting access token...")
+    def withAuth(RESTClient restClient, GvmConfig config, Closure call) {
         accessToken = oauthAccessToken(
                 restClient,
                 config.username,
@@ -22,13 +14,6 @@ trait OAuthConnectivity {
                 config.releaseClientId,
                 config.releaseClientSecret)
         call()
-    }
-
-    def prepareClient(String apiBaseUrl, String clientId, String clientSecret) {
-        def client = new RESTClient(apiBaseUrl)
-        client.httpClient.sslTrustAllCerts = true
-        client.authorization = new HTTPBasicAuthorization(clientId, clientSecret)
-        client
     }
 
     def oauthAccessToken(RESTClient client, String username, String password, String clientId, String clientSecret) {
