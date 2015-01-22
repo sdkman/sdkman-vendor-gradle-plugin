@@ -1,22 +1,19 @@
 package net.gvmtool.vendors
 
+import net.gvmtool.vendors.model.GvmExtension
 import net.gvmtool.vendors.validation.ConfigValidation
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
-abstract class GvmVendorBaseTask extends DefaultTask implements ConfigValidation,
-        ExceptionHandling, HttpVerbs, ApiConnectivity, OAuth {
+abstract class GvmVendorBaseTask extends DefaultTask
+        implements ExceptionHandling, HttpVerbs, ApiConnectivity, OAuth, ConfigValidation {
 
     @TaskAction
     void start() {
         GvmExtension config = project.gvm
-        withValid(config) {
-            withTry(logger){
-                withConnection(config){
-                    withAuth(restClient, config){
-                        execute(config)
-                    }
-                }
+        withTry(logger){
+            withValid(config){
+                execute(config)
             }
         }
     }

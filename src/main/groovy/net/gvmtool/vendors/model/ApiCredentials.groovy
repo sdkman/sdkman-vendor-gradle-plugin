@@ -1,15 +1,15 @@
-package net.gvmtool.vendors
+package net.gvmtool.vendors.model
 
 import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.URL
 
 import javax.validation.constraints.NotNull
 
-class GvmExtension {
+class ApiCredentials {
 
     @NotNull
     @URL
-    String apiUrl = "https://release-dev.cfapps.io"
+    String apiUrl
 
     @NotNull
     String clientId
@@ -24,14 +24,11 @@ class GvmExtension {
     @NotNull
     String password
 
-    @NotNull
-    String candidate
+    String name
 
-    @NotNull
-    String version
+    ApiCredentials(){}
 
-    @NotNull
-    @URL
-    String url
-
+    ApiCredentials(String name) {
+        this.name = name
+    }
 }

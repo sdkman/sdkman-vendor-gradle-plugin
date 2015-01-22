@@ -8,9 +8,9 @@ trait ExceptionHandling {
 
     def slurper = new JsonSlurper()
 
-    def withTry(Logger logger, Closure closure) {
+    def withTry(Logger logger, fun) {
         try {
-            closure()
+            fun()
 
         } catch (RESTClientException e) {
             def response = e.response

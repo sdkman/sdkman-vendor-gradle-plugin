@@ -1,19 +1,20 @@
 package net.gvmtool.vendors
 
+import net.gvmtool.vendors.model.ApiCredentials
 import wslite.rest.RESTClient
 
 trait OAuth {
 
     String accessToken
     
-    def withAuth(RESTClient restClient, GvmExtension config, Closure call) {
+    def withAuth(RESTClient restClient, ApiCredentials credentials, fun) {
         accessToken = oauthAccessToken(
                 restClient,
-                config.username,
-                config.password,
-                config.clientId,
-                config.clientSecret)
-        call()
+                credentials.username,
+                credentials.password,
+                credentials.clientId,
+                credentials.clientSecret)
+        fun()
     }
 
     def oauthAccessToken(RESTClient client, String username, String password, String clientId, String clientSecret) {

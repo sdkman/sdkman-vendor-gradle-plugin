@@ -1,5 +1,6 @@
 package net.gvmtool.vendors
 
+import net.gvmtool.vendors.model.ApiCredentials
 import wslite.http.auth.HTTPBasicAuthorization
 import wslite.rest.RESTClient
 
@@ -7,9 +8,9 @@ trait ApiConnectivity {
 
     RESTClient restClient
 
-    def withConnection(GvmExtension config, Closure call) {
-        restClient = prepareClient(config.apiUrl, config.clientId, config.clientSecret)
-        call()
+    def withConnection(ApiCredentials creds, fun) {
+        restClient = prepareClient(creds.apiUrl, creds.clientId, creds.clientSecret)
+        fun()
     }
 
     def prepareClient(String apiBaseUrl, String clientId, String clientSecret) {
