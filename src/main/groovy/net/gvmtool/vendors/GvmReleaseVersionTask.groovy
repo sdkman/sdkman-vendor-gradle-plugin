@@ -12,7 +12,7 @@ class GvmReleaseVersionTask extends GvmVendorBaseTask {
 
     @Override
     void execute(GvmExtension config) {
-        withConnection(config.apiUrl) {
+        withConnection(config.api) {
             logger.quiet("Releasing $config.candidate $config.version...")
 
             def values = [candidate: config.candidate, version: config.version, url: config.url]

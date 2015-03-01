@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull
 class GvmExtension {
 
     @URL
-    String apiUrl = "https://vendor.gvmtool.net"
+    String api = "https://vendor.gvmtool.net"
 
     @NotNull
     String consumerKey
@@ -30,7 +30,7 @@ class GvmExtension {
     @Override
     public String toString() {
         return "GvmExtension{" +
-                "apiUrl='" + apiUrl + '\'' +
+                "api='" + api + '\'' +
                 ", consumerKey='" + consumerKey + '\'' +
                 ", consumerToken='" + consumerToken + '\'' +
                 ", candidate='" + candidate + '\'' +

@@ -12,7 +12,7 @@ class GvmAnnounceVersionTask extends GvmVendorBaseTask {
 
     @Override
     void execute(GvmExtension config) {
-        withConnection(config.apiUrl) {
+        withConnection(config.api) {
             logger.quiet("Announcing for $config.candidate $config.version...")
 
             def values = [candidate: config.candidate, version: config.version,
