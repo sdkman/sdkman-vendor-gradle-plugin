@@ -1,22 +1,19 @@
 package net.gvmtool.vendors
 
-import net.gvmtool.vendors.model.ApiCredentials
-import wslite.http.auth.HTTPBasicAuthorization
 import wslite.rest.RESTClient
 
 trait ApiConnectivity {
 
     RESTClient restClient
 
-    def withConnection(ApiCredentials creds, fun) {
-        restClient = prepareClient(creds.apiUrl, creds.clientId, creds.clientSecret)
+    def withConnection(String url, fun) {
+        restClient = prepareClient(url)
         fun()
     }
 
-    def prepareClient(String apiBaseUrl, String clientId, String clientSecret) {
-        def client = new RESTClient(apiBaseUrl)
+    def prepareClient(String url) {
+        def client = new RESTClient(url)
         client.httpClient.sslTrustAllCerts = true
-        client.authorization = new HTTPBasicAuthorization(clientId, clientSecret)
         client
     }
 

@@ -9,21 +9,12 @@ import javax.validation.ValidatorFactory
 trait ConfigValidation {
 
     final static GVM_CONFIG_BLOCK = "gvm"
-    final static APIS_CONFIG_BLOCK = "apis"
 
     protected ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()
 
     def withValid(GvmExtension config, fun) {
         def validator = validatorFactory.validator
-
-        def constraints = validator.validate(config)
-
-        detectViolationsIn(GVM_CONFIG_BLOCK, constraints)
-
-        config.apis.asList().forEach {
-            detectViolationsIn(APIS_CONFIG_BLOCK, validator.validate(it))
-        }
-
+        detectViolationsIn(GVM_CONFIG_BLOCK, validator.validate(config))
         fun()
     }
 

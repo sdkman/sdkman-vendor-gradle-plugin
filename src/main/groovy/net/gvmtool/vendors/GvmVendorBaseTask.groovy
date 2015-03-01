@@ -6,7 +6,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
 abstract class GvmVendorBaseTask extends DefaultTask
-        implements ExceptionHandling, HttpVerbs, ApiConnectivity, OAuth, ConfigValidation {
+        implements ExceptionHandling, HttpVerbs, ApiConnectivity, ConfigValidation {
 
     @TaskAction
     void start() {
