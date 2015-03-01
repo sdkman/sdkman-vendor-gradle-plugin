@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull
 class GvmExtension {
 
     @URL
-    String apiUrl
+    String apiUrl = "https://vendor.gvmtool.net"
 
     @NotNull
     String consumerKey
