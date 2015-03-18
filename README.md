@@ -40,3 +40,14 @@ The credentials for Vendors consisting of a security key and token can be obtain
 ####Other Config
 
 Other configuration such as `candidate`, `version`, `url` and `hashtag` may be populated dynamically in the build.
+
+##Gradle Tasks
+
+The plugin provides the following tasks for releasing, defaulting and announcing:
+
+`gvmAnnounceVersion`    :   Announce a Release on GVM.
+
+`gvmDefaultVersion`     :   Make an existing Candidate Version the new Default on GVM.
+
+`gvmReleaseVersion`     :   Release a new Candidate Version on GVM.
+
