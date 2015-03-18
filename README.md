@@ -24,7 +24,7 @@ It requires some configuration in the `build.gradle` file of the project.
 You will also need some configuration to interact with the remote API in order to publish and broadcast:
 
 	gvm {
-		api = "https://gvm-vendor.herokuapp.com/release"
+		api = "https://vendor-dev.gvm.io"
 		consumerKey = "SOME_KEY"
 		consumerToken = "SOME_TOKEN"
 		candidate = "grails"
