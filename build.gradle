@@ -36,8 +36,8 @@ distributions {
 ext {
     bintrayBaseUrl = 'https://api.bintray.com/maven'
     bintrayUsername = 'vermeulen-mp'
-    bintrayRepository = 'gvmtool'
-    bintrayPackage = 'gradle-gvm-vendor-plugin'
+    bintrayRepository = 'gradle-plugins'
+    bintrayPackage = 'gradle-sdkvendor-plugin'
 }
 
 apply plugin: 'maven-publish'
