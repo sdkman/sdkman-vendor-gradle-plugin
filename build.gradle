@@ -2,7 +2,7 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 
 group = 'net.gvmtool'
-archivesBaseName = 'gradle-gvm-vendor-plugin'
+archivesBaseName = 'gradle-sdkvendor-plugin'
 version = '0.1.0'
 
 repositories {
