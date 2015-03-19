@@ -12,5 +12,8 @@ class GvmVendorPlugin implements Plugin<Project> {
         target.task 'gvmReleaseVersion', type: GvmReleaseVersionTask
         target.task 'gvmDefaultVersion', type: GvmDefaultVersionTask
         target.task 'gvmAnnounceVersion', type: GvmAnnounceVersionTask
+
+        target.task 'sdkMinorRelease', type: SdkMinorRelease
+        target.task 'sdkMajorRelease', type: SdkMajorRelease
     }
 }
