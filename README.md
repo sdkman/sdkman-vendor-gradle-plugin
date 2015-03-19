@@ -45,9 +45,12 @@ Other configuration such as `candidate`, `version`, `url` and `hashtag` may be p
 
 The plugin provides the following tasks for releasing, defaulting and announcing:
 
-`gvmAnnounceVersion`    :   Announce a Release on GVM.
+`gvmAnnounceVersion` - Announce a Release on GVM.
 
-`gvmDefaultVersion`     :   Make an existing Candidate Version the new Default on GVM.
+`gvmDefaultVersion` - Make an existing Candidate Version the new Default on GVM.
 
-`gvmReleaseVersion`     :   Release a new Candidate Version on GVM.
+`gvmReleaseVersion` - Release a new Candidate Version on GVM.
 
+`sdkMajorRelease` - Convenience task performs a Major Release consisting of Release, Default and Announce combined.
+
+`sdkMinorRelease` - Convenience task performs a Minor Release consisting of Release and Announce combined.
