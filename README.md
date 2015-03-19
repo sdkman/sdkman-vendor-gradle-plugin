@@ -15,7 +15,7 @@ It requires some configuration in the `build.gradle` file of the project.
                         maven { url 'http://dl.bintray.com/vermeulen-mp/gradle-plugins' }
                 }
                 dependencies {
-                        classpath 'net.gvmtool:gradle-sdkvendor-plugin:0.1.0'
+                        classpath 'net.gvmtool:gradle-sdkvendor-plugin:0.2.0'
                 }
         }
 
