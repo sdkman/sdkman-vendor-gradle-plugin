@@ -6,20 +6,20 @@ class GvmAnnounceVersionTask extends GvmVendorBaseTask {
 
     static final String ANNOUNCE_ENDPOINT = "/announce/struct"
 
+    String hashtag
+
     GvmAnnounceVersionTask() {
         description = "Announce a Release on GVM."
     }
 
     @Override
-    void execute(GvmExtension config) {
-        withConnection(config.api) {
-            logger.quiet("Announcing for $config.candidate $config.version...")
+    void executeTask() {
+        withConnection(apiUrl) {
+            logger.quiet("Announcing for $candidate $version...")
 
-            def values = [candidate: config.candidate, version: config.version,
-                    hashtag: config.hashtag ?: config.candidate ]
+            def values = [candidate: candidate, version: version, hashtag: hashtag ?: candidate ]
 
-            def response = post(restClient, ANNOUNCE_ENDPOINT,
-                    config.consumerKey, config.consumerToken, values)
+            def response = post(restClient, ANNOUNCE_ENDPOINT, consumerKey, consumerToken, values)
 
             logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
         }

@@ -11,14 +11,14 @@ class GvmDefaultVersionTask extends GvmVendorBaseTask {
     }
 
     @Override
-    void execute(GvmExtension config) {
-        withConnection(config.api) {
-            logger.quiet("Releasing $config.candidate $config.version...")
+    void executeTask() {
+        withConnection(apiUrl) {
+            logger.quiet("Releasing $candidate $version...")
 
-            def values = [candidate: config.candidate, version: config.version]
+            def values = [candidate: candidate, version: version]
 
             def response = put(restClient, DEFAULT_ENDPOINT,
-                    config.consumerKey, config.consumerToken, values)
+                    consumerKey, consumerToken, values)
 
             logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
         }

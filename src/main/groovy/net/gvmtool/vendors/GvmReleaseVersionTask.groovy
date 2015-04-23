@@ -1,24 +1,25 @@
 package net.gvmtool.vendors
 
-import net.gvmtool.vendors.model.GvmExtension
+import org.gradle.api.tasks.Input
 
 class GvmReleaseVersionTask extends GvmVendorBaseTask {
 
     static final RELEASE_ENDPOINT = "/release"
+
+    String downloadUrl
 
     GvmReleaseVersionTask() {
         description = "Release a new Candidate Version on GVM."
     }
 
     @Override
-    void execute(GvmExtension config) {
-        withConnection(config.api) {
-            logger.quiet("Releasing $config.candidate $config.version...")
+    void executeTask() {
+        withConnection(apiUrl) {
+            logger.quiet("Releasing $candidate $version...")
 
-            def values = [candidate: config.candidate, version: config.version, url: config.url]
+            def values = [candidate: candidate, version: version, url: downloadUrl]
 
-            def response = post(restClient, RELEASE_ENDPOINT,
-                    config.consumerKey, config.consumerToken, values)
+            def response = post(restClient, RELEASE_ENDPOINT, consumerKey, consumerToken, values)
 
             logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
         }

@@ -1,7 +1,5 @@
 package net.gvmtool.vendors
 
-import net.gvmtool.vendors.model.GvmExtension
-
 class SdkMajorRelease extends SdkMinorRelease {
 
     static final DEFAULT_ENDPOINT = "/default"
@@ -11,12 +9,12 @@ class SdkMajorRelease extends SdkMinorRelease {
     }
 
     @Override
-    void execute(GvmExtension config) {
-        super.execute(config)
+    void executeTask() {
+        super.executeTask()
 
-        logger.quiet("Defaulting $config.candidate $config.version...")
-        def values = [candidate: config.candidate, version: config.version]
-        def response = put(restClient, DEFAULT_ENDPOINT, config.consumerKey, config.consumerToken, values)
+        logger.quiet("Defaulting $candidate $version...")
+        def values = [candidate: candidate, version: version]
+        def response = put(restClient, DEFAULT_ENDPOINT, consumerKey, consumerToken, values)
         logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
     }
 }

@@ -3,7 +3,7 @@ apply plugin: 'idea'
 
 group = 'net.gvmtool'
 archivesBaseName = 'gradle-sdkvendor-plugin'
-version = '0.3.1'
+version = '0.4-SNAPSHOT'
 
 sourceCompatibility = "1.6"
 targetCompatibility= "1.6"
