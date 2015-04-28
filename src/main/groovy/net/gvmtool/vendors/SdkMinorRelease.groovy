@@ -1,6 +1,6 @@
 package net.gvmtool.vendors
 
-import net.gvmtool.vendors.model.GvmExtension
+import org.gradle.api.tasks.Input
 
 class SdkMinorRelease extends GvmVendorBaseTask {
 
@@ -8,21 +8,24 @@ class SdkMinorRelease extends GvmVendorBaseTask {
 
     static final RELEASE_ENDPOINT = "/release"
 
+    String downloadUrl
+    String hashtag
+
     SdkMinorRelease() {
         description = "Convenience task performs a Minor Release consisting of Release and Announce combined."
     }
 
     @Override
-    void execute(GvmExtension config) {
-        withConnection(config.api) {
-            logger.quiet("Releasing $config.candidate $config.version...")
-            def releaseValues = [candidate: config.candidate, version: config.version, url: config.url]
-            def releaseResponse = post(restClient, RELEASE_ENDPOINT, config.consumerKey, config.consumerToken, releaseValues)
+    void executeTask() {
+        withConnection(apiUrl) {
+            logger.quiet("Releasing $candidate $version...")
+            def releaseValues = [candidate: candidate, version: version, url: downloadUrl]
+            def releaseResponse = post(restClient, RELEASE_ENDPOINT, consumerKey, consumerToken, releaseValues)
             logger.quiet("Response: ${releaseResponse.statusCode}: ${releaseResponse.contentAsString}...")
 
-            logger.quiet("Announcing for $config.candidate $config.version...")
-            def announceValues = [candidate: config.candidate, version: config.version, hashtag: config.hashtag ?: config.candidate]
-            def announceResponse = post(restClient, ANNOUNCE_ENDPOINT, config.consumerKey, config.consumerToken, announceValues)
+            logger.quiet("Announcing for $candidate $version...")
+            def announceValues = [candidate: candidate, version: version, hashtag: hashtag ?: candidate]
+            def announceResponse = post(restClient, ANNOUNCE_ENDPOINT, consumerKey, consumerToken, announceValues)
             logger.quiet("Response: ${announceResponse.statusCode}: ${announceResponse.contentAsString}...")
         }
     }

@@ -1,27 +1,25 @@
 package net.gvmtool.vendors.validation
 
-import net.gvmtool.vendors.model.GvmExtension
 import org.gradle.api.GradleException
+import org.gradle.api.Task
 
 import javax.validation.Validation
 import javax.validation.ValidatorFactory
 
 trait ConfigValidation {
 
-    final static GVM_CONFIG_BLOCK = "gvm"
-
     protected ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()
 
-    def withValid(GvmExtension config, fun) {
+    def withValid(Task task, fun) {
         def validator = validatorFactory.validator
-        detectViolationsIn(GVM_CONFIG_BLOCK, validator.validate(config))
+        detectViolationsIn(task.name, validator.validate(task))
         fun()
     }
 
-    def detectViolationsIn(String block, Set constraints) {
+    def detectViolationsIn(String name, Set constraints) {
         if (constraints.size()) {
             def message = constraints.collect { "${it.propertyPath} ${it.message}" }.join("; ")
-            throw new GradleException("config block invalid: $block - " + message)
+            throw new GradleException("Invalid configuration for task $name: " + message)
         }
     }
 }

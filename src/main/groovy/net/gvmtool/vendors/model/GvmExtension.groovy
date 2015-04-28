@@ -2,26 +2,19 @@ package net.gvmtool.vendors.model
 
 import org.hibernate.validator.constraints.URL
 
-import javax.validation.constraints.NotNull
-
 class GvmExtension {
 
     @URL
     String api = "https://vendor.gvmtool.net"
 
-    @NotNull
     String consumerKey
 
-    @NotNull
     String consumerToken
 
-    @NotNull
     String candidate
 
-    @NotNull
     String version
 
-    @NotNull
     @URL
     String url
 
