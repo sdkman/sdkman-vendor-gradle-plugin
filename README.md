@@ -1,6 +1,6 @@
-#SDK Vendor Plugin
+#SDKMAN! Vendor Plugin
 
-This Gradle plugin is used by SDK Vendors to publish their own releases on GVM/SDKenv. Even more, they are able to announce their releases through the Broadcast API.
+This Gradle plugin is used by SDK Vendors to publish their own releases on [SDKMAN!](http://sdkman.io). Even more, they are able to announce their releases through the Broadcast API.
 
 ##Vendors
 
