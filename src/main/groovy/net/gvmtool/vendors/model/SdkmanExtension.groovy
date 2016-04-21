@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.URL
 class SdkmanExtension {
 
     @URL
-    String api = "https://vendor.gvmtool.net"
+    String api = "https://vendors.sdkman.io"
 
     String consumerKey
 
