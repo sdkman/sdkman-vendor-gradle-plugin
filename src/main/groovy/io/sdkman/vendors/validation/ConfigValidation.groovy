@@ -1,4 +1,4 @@
-package net.gvmtool.vendors.validation
+package io.sdkman.vendors.validation
 
 import org.gradle.api.GradleException
 import org.gradle.api.Task

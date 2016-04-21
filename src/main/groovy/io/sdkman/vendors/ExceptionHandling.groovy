@@ -1,4 +1,4 @@
-package net.gvmtool.vendors
+package io.sdkman.vendors
 
 import groovy.json.JsonSlurper
 import org.gradle.api.logging.Logger

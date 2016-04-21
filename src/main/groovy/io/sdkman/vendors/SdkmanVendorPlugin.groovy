@@ -1,6 +1,6 @@
-package net.gvmtool.vendors
+package io.sdkman.vendors
 
-import net.gvmtool.vendors.model.SdkmanExtension
+import io.sdkman.vendors.model.SdkmanExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task

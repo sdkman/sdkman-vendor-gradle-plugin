@@ -1,4 +1,4 @@
-package net.gvmtool.vendors.model
+package io.sdkman.vendors.model
 
 import org.hibernate.validator.constraints.URL
 

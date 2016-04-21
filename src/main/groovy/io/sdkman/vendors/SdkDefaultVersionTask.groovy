@@ -1,4 +1,4 @@
-package net.gvmtool.vendors
+package io.sdkman.vendors
 
 class SdkDefaultVersionTask extends SdkmanVendorBaseTask {
 
