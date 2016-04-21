@@ -1,8 +1,6 @@
 package net.gvmtool.vendors
 
-import org.gradle.api.tasks.Input
-
-class SdkMinorRelease extends GvmVendorBaseTask {
+class SdkMinorRelease extends SdkmanVendorBaseTask {
 
     static final ANNOUNCE_ENDPOINT = "/announce/struct"
 
@@ -12,7 +10,7 @@ class SdkMinorRelease extends GvmVendorBaseTask {
     String hashtag
 
     SdkMinorRelease() {
-        description = "Convenience task performs a Minor Release consisting of Release and Announce combined."
+        description = "Convenience task performs a Minor Release consisting of Release and Announce combined on SDKMAN!"
     }
 
     @Override

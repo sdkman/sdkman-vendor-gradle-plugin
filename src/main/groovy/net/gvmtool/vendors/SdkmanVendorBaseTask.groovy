@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.URL
 
 import javax.validation.constraints.NotNull
 
-abstract class GvmVendorBaseTask extends DefaultTask
+abstract class SdkmanVendorBaseTask extends DefaultTask
         implements ExceptionHandling, HttpVerbs, ApiConnectivity, ConfigValidation {
 
     @Input @URL @NotNull String apiUrl

@@ -1,11 +1,11 @@
 package net.gvmtool.vendors
 
-class GvmDefaultVersionTask extends GvmVendorBaseTask {
+class SdkDefaultVersionTask extends SdkmanVendorBaseTask {
 
     static final DEFAULT_ENDPOINT = "/default"
 
-    GvmDefaultVersionTask() {
-        description = "Make an existing Candidate Version the new Default on GVM."
+    SdkDefaultVersionTask() {
+        description = "Make an existing Candidate Version the new Default on SDKMAN!"
     }
 
     @Override

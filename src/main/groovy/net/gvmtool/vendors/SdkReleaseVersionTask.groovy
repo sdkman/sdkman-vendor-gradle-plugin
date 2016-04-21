@@ -1,15 +1,13 @@
 package net.gvmtool.vendors
 
-import org.gradle.api.tasks.Input
-
-class GvmReleaseVersionTask extends GvmVendorBaseTask {
+class SdkReleaseVersionTask extends SdkmanVendorBaseTask {
 
     static final RELEASE_ENDPOINT = "/release"
 
     String downloadUrl
 
-    GvmReleaseVersionTask() {
-        description = "Release a new Candidate Version on GVM."
+    SdkReleaseVersionTask() {
+        description = "Release a new Candidate Version on SDKMAN!"
     }
 
     @Override

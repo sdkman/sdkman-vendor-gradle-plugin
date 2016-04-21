@@ -1,13 +1,13 @@
 package net.gvmtool.vendors
 
-class GvmAnnounceVersionTask extends GvmVendorBaseTask {
+class SdkAnnounceVersionTask extends SdkmanVendorBaseTask {
 
     static final String ANNOUNCE_ENDPOINT = "/announce/struct"
 
     String hashtag
 
-    GvmAnnounceVersionTask() {
-        description = "Announce a Release on GVM."
+    SdkAnnounceVersionTask() {
+        description = "Announce a Release on SDKMAN!"
     }
 
     @Override

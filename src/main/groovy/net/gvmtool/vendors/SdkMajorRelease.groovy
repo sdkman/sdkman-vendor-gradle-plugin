@@ -5,7 +5,7 @@ class SdkMajorRelease extends SdkMinorRelease {
     static final DEFAULT_ENDPOINT = "/default"
 
     SdkMajorRelease() {
-        description = "Convenience task performs a Major Release consisting of Release, Default and Announce combined."
+        description = "Convenience task performs a Major Release consisting of Release, Default and Announce combined on SDKMAN!"
     }
 
     @Override
