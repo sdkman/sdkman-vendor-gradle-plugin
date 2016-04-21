@@ -1,6 +1,6 @@
 package net.gvmtool.vendors
 
-import net.gvmtool.vendors.model.GvmExtension
+import net.gvmtool.vendors.model.SdkmanExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -8,7 +8,7 @@ import org.gradle.api.Task
 class GvmVendorPlugin implements Plugin<Project> {
     @Override
     void apply(Project target) {
-        target.extensions.create("gvm", GvmExtension)
+        target.extensions.create("gvm", SdkmanExtension)
 
         configure(target.tasks.create('gvmReleaseVersion', GvmReleaseVersionTask))
 

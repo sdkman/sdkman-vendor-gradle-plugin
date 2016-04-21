@@ -1,7 +1,5 @@
 package net.gvmtool.vendors
 
-import net.gvmtool.vendors.model.GvmExtension
-
 class GvmAnnounceVersionTask extends GvmVendorBaseTask {
 
     static final String ANNOUNCE_ENDPOINT = "/announce/struct"

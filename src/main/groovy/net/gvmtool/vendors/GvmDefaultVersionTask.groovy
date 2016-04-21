@@ -1,7 +1,5 @@
 package net.gvmtool.vendors
 
-import net.gvmtool.vendors.model.GvmExtension
-
 class GvmDefaultVersionTask extends GvmVendorBaseTask {
 
     static final DEFAULT_ENDPOINT = "/default"

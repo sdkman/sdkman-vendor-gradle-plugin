@@ -2,7 +2,7 @@ package net.gvmtool.vendors.model
 
 import org.hibernate.validator.constraints.URL
 
-class GvmExtension {
+class SdkmanExtension {
 
     @URL
     String api = "https://vendor.gvmtool.net"
@@ -22,7 +22,7 @@ class GvmExtension {
 
     @Override
     public String toString() {
-        return "GvmExtension{" +
+        return "SdkmanExtension{" +
                 "api='" + api + '\'' +
                 ", consumerKey='" + consumerKey + '\'' +
                 ", consumerToken='" + consumerToken + '\'' +
