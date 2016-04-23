@@ -4,27 +4,34 @@ This Gradle plugin is used by SDK Vendors to publish their own releases on [SDKM
 
 ##Vendors
 
-A Vendor is an organisation/individual that owns a technology, and wishes to publish it's Versions on GVM.
+A Vendor is an organisation/individual that owns a technology, and wishes to publish it's Versions on SDKMAN!
 
 ###Setup
 It requires some configuration in the `build.gradle` file of the project.
 
-        buildscript {
-                repositories {
-                        ...
-                        maven { url 'http://dl.bintray.com/vermeulen-mp/gradle-plugins' }
-                }
-                dependencies {
-                        classpath 'net.gvmtool:gradle-sdkvendor-plugin:0.3.1'
-                }
-        }
+	buildscript {
+	  repositories {
+		maven {
+		  url "https://plugins.gradle.org/m2/"
+		}
+	  }
+	  dependencies {
+		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:1.0.0"
+	  }
+	}
 
-        apply plugin: 'net.gvmtool.sdkvendor'
+	apply plugin: "io.sdkman.vendors"
+
+For users of Gradle 2.1 or greater:
+
+	plugins {
+	  id "io.sdkman.vendors" version "1.0.0"
+	}
 
 You will also need some configuration to interact with the remote API in order to publish and broadcast:
 
-	gvm {
-		api = "https://gvm-vendor.herokuapp.com/"
+	sdkman {
+		api = "https://vendors.sdkman.io/"
 		consumerKey = "SOME_KEY"
 		consumerToken = "SOME_TOKEN"
 		candidate = "grails"
@@ -35,21 +42,21 @@ You will also need some configuration to interact with the remote API in order t
 
 ####Credentials
 
-The credentials for Vendors consisting of a security key and token can be obtained by raising an [Issue on Github](https://github.com/gvmtool/gradle-sdkvendor-plugin/issues).
+The credentials for Vendors consisting of a security key and token can be obtained by raising an [Issue on Github](https://github.com/sdkman/sdkman-vendor-gradle-plugin).
 
 ####Other Config
 
-Other configuration such as `candidate`, `version`, `url` and `hashtag` may be populated dynamically in the build.
+Configurations such as `candidate`, `version`, `url` and `hashtag` may be populated dynamically in the build.
 
 ##Gradle Tasks
 
 The plugin provides the following tasks for releasing, defaulting and announcing:
 
-`gvmAnnounceVersion` - Announce a Release on GVM.
+`sdkAnnounceVersion` - Announce a Release on SDKMAN.
 
-`gvmDefaultVersion` - Make an existing Candidate Version the new Default on GVM.
+`sdkDefaultVersion` - Make an existing Candidate Version the new Default on SDKMAN.
 
-`gvmReleaseVersion` - Release a new Candidate Version on GVM.
+`sdkReleaseVersion` - Release a new Candidate Version on SDKMAN.
 
 `sdkMajorRelease` - Convenience task performs a Major Release consisting of Release, Default and Announce combined.
 
