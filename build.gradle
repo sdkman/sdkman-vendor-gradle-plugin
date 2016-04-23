@@ -1,12 +1,25 @@
 apply plugin: 'groovy'
 apply plugin: 'idea'
 
-group = 'net.gvmtool'
-archivesBaseName = 'gradle-sdkvendor-plugin'
-version = '0.4-SNAPSHOT'
+group = 'io.sdkman'
+archivesBaseName = 'sdkman-vendor-gradle-plugin'
+version = '1.0.0'
 
 sourceCompatibility = "1.6"
 targetCompatibility= "1.6"
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+      classpath "com.gradle.publish:plugin-publish-plugin:0.9.4"
+  }
+}
+
+apply plugin: "com.gradle.plugin-publish"
 
 repositories {
     jcenter()
@@ -14,6 +27,7 @@ repositories {
 
 dependencies {
     compile gradleApi()
+    compile localGroovy()
 
     compile 'com.github.groovy-wslite:groovy-wslite:0.8.0'
     compile 'org.hibernate:hibernate-validator:5.1.3.Final'
@@ -22,6 +36,20 @@ dependencies {
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
     testCompile 'junit:junit:4.11'
     testCompile 'com.github.tomakehurst:wiremock:1.46'
+}
+
+pluginBundle {
+  website = 'http://sdkman.io/'
+  vcsUrl = 'https://github.com/sdkman/gradle-sdkman-vendor-plugin'
+  description = 'The SDKMAN Vendor Gradle Plugin.'
+  tags = ['sdkman', 'sdk', 'gvm', 'gvmtool']
+
+  plugins {
+    sdkmanVendorPlugin {
+      id = 'io.sdkman.vendors'
+      displayName = 'SDKMAN! Vendor Plugin'
+    }
+  }
 }
 
 apply plugin: 'distribution'
@@ -37,9 +65,9 @@ distributions {
 
 ext {
     bintrayBaseUrl = 'https://api.bintray.com/maven'
-    bintrayUsername = 'vermeulen-mp'
+    bintrayUsername = 'sdkman'
     bintrayRepository = 'gradle-plugins'
-    bintrayPackage = 'gradle-sdkvendor-plugin'
+    bintrayPackage = 'sdkman-vendor-gradle-plugin'
 }
 
 apply plugin: 'maven-publish'
@@ -60,8 +88,8 @@ publishing {
 
             pom.withXml {
                 def root = asNode()
-                root.appendNode('name', 'Gradle GVM Vendor plugin')
-                root.appendNode('description', 'Gradle plugin for GVM Vendors to publish Candidate Versions.')
+                root.appendNode('name', 'SDKMAN! Vendor Gradle plugin')
+                root.appendNode('description', 'Gradle plugin for SDKMAN! Vendors to publish Releases.')
                 root.appendNode('inceptionYear', '2014')
 
                 def license = root.appendNode('licenses').appendNode('license')
