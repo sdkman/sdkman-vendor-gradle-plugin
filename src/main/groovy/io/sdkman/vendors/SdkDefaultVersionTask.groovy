@@ -15,8 +15,7 @@ class SdkDefaultVersionTask extends SdkmanVendorBaseTask {
 
             def values = [candidate: candidate, version: version]
 
-            def response = put(restClient, DEFAULT_ENDPOINT,
-                    consumerKey, consumerToken, values)
+            def response = put(restClient, DEFAULT_ENDPOINT, consumerKey, consumerToken, values)
 
             logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
         }

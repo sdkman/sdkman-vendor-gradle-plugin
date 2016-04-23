@@ -55,11 +55,11 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         }
     }
 
-    private Task configureTask(Task task, Closure initializer) {
+    private static configureTask(Task task, Closure initializer) {
         task.project.afterEvaluate {
-            Closure cl = initializer.clone()
+            def cl = initializer.clone()
             cl.delegate = task
-            cl.resolveStrategy = Closure.DELEGATE_FIRST
+            cl.resolveStrategy = DELEGATE_FIRST
             cl.call()
         }
         return task
