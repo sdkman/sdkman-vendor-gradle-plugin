@@ -16,7 +16,7 @@ It requires some configuration in the `build.gradle` file of the project.
 		}
 	  }
 	  dependencies {
-		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:1.0.0"
+		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:1.1.0"
 	  }
 	}
 
@@ -25,7 +25,7 @@ It requires some configuration in the `build.gradle` file of the project.
 For users of Gradle 2.1 or greater:
 
 	plugins {
-	  id "io.sdkman.vendors" version "1.0.0"
+	  id "io.sdkman.vendors" version "1.1.0"
 	}
 
 You will also need some configuration to interact with the remote API in order to publish and broadcast:

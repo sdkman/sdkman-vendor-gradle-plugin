@@ -3,7 +3,7 @@ apply plugin: 'idea'
 
 group = 'io.sdkman'
 archivesBaseName = 'sdkman-vendor-gradle-plugin'
-version = '1.0.0'
+version = '1.1.0'
 
 sourceCompatibility = "1.6"
 targetCompatibility= "1.6"
