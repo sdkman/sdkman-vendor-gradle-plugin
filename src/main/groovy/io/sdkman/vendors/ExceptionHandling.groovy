@@ -15,8 +15,13 @@ trait ExceptionHandling {
         } catch (RESTClientException e) {
             def response = e.response
             if(response) {
-                def message = slurper.parseText(response.contentAsString).message
-                logger.error("Error: ${response.statusCode}: ${message}")
+                def content = response.contentAsString
+                try {
+                    def message = slurper.parseText(content).message
+                    logger.error("Error: ${response.statusCode}: ${message}")
+                } catch (Exception ignored) {
+                    logger.error("Error: ${response.statusCode}: ${content}")
+                }
             } else {
                 logger.error("Error: ${e.message}", e)
             }
