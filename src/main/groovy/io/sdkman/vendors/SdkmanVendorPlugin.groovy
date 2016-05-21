@@ -59,7 +59,7 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         task.project.afterEvaluate {
             def cl = initializer.clone()
             cl.delegate = task
-            cl.resolveStrategy = DELEGATE_FIRST
+            cl.resolveStrategy = Closure.DELEGATE_FIRST
             cl.call()
         }
         return task
