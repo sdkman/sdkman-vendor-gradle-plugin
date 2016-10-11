@@ -16,7 +16,7 @@ It requires some configuration in the `build.gradle` file of the project.
 		}
 	  }
 	  dependencies {
-		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:1.1.0"
+		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:1.1.1"
 	  }
 	}
 
