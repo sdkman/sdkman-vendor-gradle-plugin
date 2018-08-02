@@ -39,6 +39,7 @@ You will also need some configuration to interact with the remote API in order t
 		url = "http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/grails-3.0.0.zip"
 		hashtag = "#grailsfw"
 	}
+
 ```
 #### Credentials
 
@@ -46,14 +47,14 @@ The credentials for Vendors consisting of a security key and token can be obtain
 
 #### Other Config
 
-Configurations such as ```candidate```, ```version```, ```url``` and ```hashtag``` may be populated dynamically in the build.
+Configurations such as `candidate`, `version`, `url` and `hashtag` may be populated dynamically in the build.
 
 ## Gradle Tasks
 
 The plugin provides the following tasks for releasing, defaulting and announcing:
 
- - ```sdkAnnounceVersion``` - Announce a Release on SDKMAN.
- - ```sdkDefaultVersion``` - Make an existing Candidate Version the new Default on SDKMAN.
- - ```sdkReleaseVersion``` - Release a new Candidate Version on SDKMAN.
- - ```sdkMajorRelease``` - Convenience task performs a Major Release consisting of Release, Default and Announce combined.
- - ```sdkMinorRelease``` - Convenience task performs a Minor Release consisting of Release and Announce combined.
+ - `sdkAnnounceVersion` - Announce a Release on SDKMAN.
+ - `sdkDefaultVersion` - Make an existing Candidate Version the new Default on SDKMAN.
+ - `sdkReleaseVersion` - Release a new Candidate Version on SDKMAN.
+ - `sdkMajorRelease` - Convenience task performs a Major Release consisting of Release, Default and Announce combined.
+ - `sdkMinorRelease` - Convenience task performs a Minor Release consisting of Release and Announce combined.
