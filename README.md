@@ -40,15 +40,15 @@ You will also need some configuration to interact with the remote API in order t
 		hashtag = "#grailsfw"
 	}
 
-####Credentials
+#### Credentials
 
 The credentials for Vendors consisting of a security key and token can be obtained by raising an [Issue on Github](https://github.com/sdkman/sdkman-vendor-gradle-plugin).
 
-####Other Config
+#### Other Config
 
 Configurations such as `candidate`, `version`, `url` and `hashtag` may be populated dynamically in the build.
 
-##Gradle Tasks
+## Gradle Tasks
 
 The plugin provides the following tasks for releasing, defaulting and announcing:
 
