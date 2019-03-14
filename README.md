@@ -16,7 +16,7 @@ It requires some configuration in the ```build.gradle``` file of the project.
 		}
 	  }
 	  dependencies {
-		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:1.1.1"
+		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:1.2.0"
 	  }
 	}
 
@@ -25,7 +25,7 @@ It requires some configuration in the ```build.gradle``` file of the project.
 For users of Gradle 2.1 or greater:
 ```groovy
 	plugins {
-	  id "io.sdkman.vendors" version "1.1.0"
+	  id "io.sdkman.vendors" version "1.2.0"
 	}
 ```
 You will also need some configuration to interact with the remote API in order to publish and broadcast:
@@ -35,8 +35,8 @@ You will also need some configuration to interact with the remote API in order t
 		consumerKey = "SOME_KEY"
 		consumerToken = "SOME_TOKEN"
 		candidate = "grails"
-		version = "3.0.0"
-		url = "http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/grails-3.0.0.zip"
+		version = "x.y.z"
+		url = "http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/grails-x.y.z.zip"
 		hashtag = "#grailsfw"
 	}
 
@@ -47,7 +47,7 @@ The credentials for Vendors consisting of a security key and token can be obtain
 
 #### Other Config
 
-Configurations such as `candidate`, `version`, `url` and `hashtag` may be populated dynamically in the build.
+All configuration above such as credentials, `candidate`, `version`, `url` and `hashtag` may be populated dynamically in the build.
 
 ## Gradle Tasks
 
