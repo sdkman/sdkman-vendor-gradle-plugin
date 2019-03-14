@@ -8,7 +8,7 @@ import javax.validation.ValidatorFactory
 
 trait ConfigValidation {
 
-    protected ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()
 
     def withValid(Task task, fun) {
         def validator = validatorFactory.validator

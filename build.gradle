@@ -1,34 +1,20 @@
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-      classpath "com.gradle.publish:plugin-publish-plugin:0.9.4"
-  }
-}
-
 plugins {
-  id "com.gradle.build-scan" version "1.16"
+    id "groovy"
+    id "com.gradle.build-scan" version "2.2.1"
+    id "com.gradle.plugin-publish" version "0.10.1"
 }
 
 buildScan {
-  termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-  termsOfServiceAgree = 'yes'
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
 }
-
-apply plugin: 'groovy'
-apply plugin: 'idea'
 
 group = 'io.sdkman'
 archivesBaseName = 'sdkman-vendor-gradle-plugin'
-version = '1.1.0'
+version = '1.2.0'
 
-sourceCompatibility = "1.6"
-targetCompatibility= "1.6"
-
-apply plugin: "com.gradle.plugin-publish"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 repositories {
     jcenter()
@@ -36,29 +22,29 @@ repositories {
 
 dependencies {
     compile gradleApi()
-    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile 'org.codehaus.groovy:groovy-all:2.5.6'
     compile 'com.github.groovy-wslite:groovy-wslite:1.1.3'
     compile 'org.hibernate:hibernate-validator:5.1.3.Final'
     compile 'javax.el:javax.el-api:2.2.4'
     compile 'org.glassfish.web:javax.el:2.2.4'
-    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    testCompile 'org.spockframework:spock-core:1.2-groovy-2.5'
     testCompile 'cglib:cglib-nodep:3.1'
     testCompile 'junit:junit:4.11'
     testCompile 'com.github.tomakehurst:wiremock:1.46'
 }
 
 pluginBundle {
-  website = 'http://sdkman.io/'
-  vcsUrl = 'https://github.com/sdkman/gradle-sdkman-vendor-plugin'
-  description = 'The SDKMAN Vendor Gradle Plugin.'
-  tags = ['sdkman', 'sdk', 'gvm', 'gvmtool']
+    website = 'http://sdkman.io/'
+    vcsUrl = 'https://github.com/sdkman/gradle-sdkman-vendor-plugin'
+    description = 'The SDKMAN Vendor Gradle Plugin.'
+    tags = ['sdkman', 'sdk', 'gvm', 'gvmtool']
 
-  plugins {
-    sdkmanVendorPlugin {
-      id = 'io.sdkman.vendors'
-      displayName = 'SDKMAN! Vendor Plugin'
+    plugins {
+        sdkmanVendorPlugin {
+            id = 'io.sdkman.vendors'
+            displayName = 'SDKMAN! Vendor Plugin'
+        }
     }
-  }
 }
 
 apply plugin: 'distribution'
@@ -99,7 +85,7 @@ publishing {
                 def root = asNode()
                 root.appendNode('name', 'SDKMAN! Vendor Gradle plugin')
                 root.appendNode('description', 'Gradle plugin for SDKMAN! Vendors to publish Releases.')
-                root.appendNode('inceptionYear', '2014')
+                root.appendNode('inceptionYear', '2018')
 
                 def license = root.appendNode('licenses').appendNode('license')
                 license.appendNode('name', 'The Apache Software License, Version 2.0')
@@ -107,9 +93,8 @@ publishing {
                 license.appendNode('distribution', 'repo')
 
                 def developer = root.appendNode('developers').appendNode('developer')
-                developer.appendNode('id', 'vermeulen.mp')
                 developer.appendNode('name', 'Marco Vermeulen')
-                developer.appendNode('email', 'vermeulen.mp@gmail.com')
+                developer.appendNode('email', 'marco@sdkman.io')
             }
 
         }
