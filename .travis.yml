@@ -9,7 +9,7 @@ cache:
 language: groovy
 
 script:
-  - ./gradlew -Dscan=true build
+  - ./gradlew --scan build
 
 jdk:
   - openjdk11
