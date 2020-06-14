@@ -14,6 +14,7 @@ abstract class SdkmanVendorBaseTask extends DefaultTask
     @Input @URL @NotNull String apiUrl
     @Input @NotNull String candidate
     @Input @NotNull String version
+    @Input @NotNull String platform
     @NotNull String consumerKey
     @NotNull String consumerToken
 

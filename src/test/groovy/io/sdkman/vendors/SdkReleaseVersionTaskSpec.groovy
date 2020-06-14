@@ -11,7 +11,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-class SdkConvenienceTaskSpec extends Specification {
+class SdkReleaseVersionTaskSpec extends Specification {
 
     @Rule
     WireMockRule api = new WireMockRule(options().dynamicPort())
@@ -27,7 +27,7 @@ class SdkConvenienceTaskSpec extends Specification {
         buildFile = testProjectDir.newFile('build.gradle')
     }
 
-    def "should perform a minor release with structured announcement"() {
+    def "should perform a UNIVERSAL simple release"() {
         given:
         def baseUrl = api.baseUrl()
         settingsFile << "rootProject.name = 'release-test'"
@@ -42,26 +42,23 @@ class SdkConvenienceTaskSpec extends Specification {
             candidate = "grails"
             version = "x.y.z"
             url = "https://host/grails-x.y.z.zip"
-            hashtag = "grailsfw"
         }
     """
 
         and:
         stubFor(post(urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
-        stubFor(post(urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
-                .willReturn(okJson("""{"status": 201, "message":"success"}""")))
 
         when:
         def result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
-                .withArguments('sdkMinorRelease')
+                .withArguments('sdkReleaseVersion')
                 .withPluginClasspath()
                 .build()
 
         then:
         result.output.contains('Releasing grails x.y.z...')
-        result.task(":sdkMinorRelease").outcome == SUCCESS
+        result.task(":sdkReleaseVersion").outcome == SUCCESS
         verify(postRequestedFor(
                 urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
                 .withHeader("Content-Type", equalTo("application/json"))
@@ -75,29 +72,13 @@ class SdkConvenienceTaskSpec extends Specification {
                         "version":"x.y.z",
                         "platform":"UNIVERSAL",
                         "url":"https://host/grails-x.y.z.zip"
-                    }
-                  """)
-                )
-        )
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
-                    {
-                        "candidate": "grails", 
-                        "version": "x.y.z", 
-                        "hashtag": "grailsfw"
                     }
                   """)
                 )
         )
     }
 
-    def "should perform a major release with structured announcement"() {
+    def "should perform a PLATFORM SPECIFIC simple release"() {
         given:
         def baseUrl = api.baseUrl()
         settingsFile << "rootProject.name = 'release-test'"
@@ -111,29 +92,25 @@ class SdkConvenienceTaskSpec extends Specification {
             consumerToken = "SOME_TOKEN"
             candidate = "grails"
             version = "x.y.z"
+            platform = "MAC_OSX"
             url = "https://host/grails-x.y.z.zip"
-            hashtag = "grailsfw"
         }
     """
 
         and:
         stubFor(post(urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
-        stubFor(post(urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
-                .willReturn(okJson("""{"status": 201, "message":"success"}""")))
-        stubFor(put(urlEqualTo(SdkMajorRelease.DEFAULT_ENDPOINT))
-                .willReturn(okJson("""{"status": 202, "message":"success"}""")))
 
         when:
         def result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
-                .withArguments('sdkMajorRelease')
+                .withArguments('sdkReleaseVersion')
                 .withPluginClasspath()
                 .build()
 
         then:
         result.output.contains('Releasing grails x.y.z...')
-        result.task(":sdkMajorRelease").outcome == SUCCESS
+        result.task(":sdkReleaseVersion").outcome == SUCCESS
         verify(postRequestedFor(
                 urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
                 .withHeader("Content-Type", equalTo("application/json"))
@@ -145,39 +122,8 @@ class SdkConvenienceTaskSpec extends Specification {
                     {
                         "candidate":"grails",
                         "version":"x.y.z",
-                        "platform":"UNIVERSAL",
-                        "url":"https://host/grails-x.y.z.zip"
-                    }
-                  """)
-                )
-        )
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
-                    {
-                        "candidate": "grails", 
-                        "version": "x.y.z", 
-                        "hashtag": "grailsfw"
-                    }
-                  """)
-                )
-        )
-        verify(putRequestedFor(
-                urlEqualTo(SdkMajorRelease.DEFAULT_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
-                    {
-                        "candidate": "grails", 
-                        "version": "x.y.z" 
+                        "url":"https://host/grails-x.y.z.zip",
+                        "platform":"MAC_OSX"
                     }
                   """)
                 )

@@ -17,7 +17,7 @@ class SdkMinorRelease extends SdkmanVendorBaseTask {
     void executeTask() {
         withConnection(apiUrl, RELEASE_ENDPOINT, consumerKey, consumerToken) { conn ->
             logger.quiet("Releasing $candidate $version...")
-            def releaseValues = [candidate: candidate, version: version, url: downloadUrl]
+            def releaseValues = [candidate: candidate, version: version, platform:platform, url: downloadUrl]
             def response = post(conn, releaseValues)
             logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
         }

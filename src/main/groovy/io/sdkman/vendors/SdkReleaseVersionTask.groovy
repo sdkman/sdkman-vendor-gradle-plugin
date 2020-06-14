@@ -12,14 +12,14 @@ class SdkReleaseVersionTask extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        withConnection(apiUrl) {
+        withConnection(apiUrl, RELEASE_ENDPOINT, consumerKey, consumerToken) { conn ->
             logger.quiet("Releasing $candidate $version...")
 
-            def values = [candidate: candidate, version: version, url: downloadUrl]
+            def values = [candidate: candidate, version: version, url: downloadUrl, platform: platform ?: "UNIVERSAL"]
 
-            def response = post(restClient, RELEASE_ENDPOINT, consumerKey, consumerToken, values)
+            def response = post(conn, values)
 
-            logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
+            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
         }
     }
 }

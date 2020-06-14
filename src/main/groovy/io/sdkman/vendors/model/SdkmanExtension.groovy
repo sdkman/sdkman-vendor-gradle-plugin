@@ -15,6 +15,8 @@ class SdkmanExtension {
 
     String version
 
+    String platform = "UNIVERSAL"
+
     @URL
     String url
 
@@ -28,6 +30,7 @@ class SdkmanExtension {
                 ", consumerToken='" + consumerToken + '\'' +
                 ", candidate='" + candidate + '\'' +
                 ", version='" + version + '\'' +
+                ", platform='" + platform + '\'' +
                 ", url='" + url + '\'' +
                 ", hashtag='" + hashtag + '\'' +
                 '}';

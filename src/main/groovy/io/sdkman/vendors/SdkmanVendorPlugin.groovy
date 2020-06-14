@@ -33,6 +33,7 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         configureCommon(task)
         return configureTask(task) {
             downloadUrl = downloadUrl ?: project.extensions.sdkman.url
+            platform = platform ?: project.extensions.sdkman.platform
         }
     }
 
@@ -51,6 +52,7 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         configureCommon(task)
         return configureTask(task) {
             downloadUrl = downloadUrl ?: project.extensions.sdkman.url
+            platform = platform ?: project.extensions.sdkman.platform
             hashtag = hashtag ?: project.extensions.sdkman.hashtag
         }
     }
