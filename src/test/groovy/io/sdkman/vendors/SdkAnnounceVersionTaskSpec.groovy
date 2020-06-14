@@ -1,6 +1,5 @@
 package io.sdkman.vendors
 
-
 import com.github.tomakehurst.wiremock.junit.WireMockRule
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
@@ -9,6 +8,8 @@ import spock.lang.Specification
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
+import static io.sdkman.vendors.SdkMinorRelease.ANNOUNCE_ENDPOINT
+import static io.sdkman.vendors.stubs.Stubs.verifyPost
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class SdkAnnounceVersionTaskSpec extends Specification {
@@ -47,7 +48,7 @@ class SdkAnnounceVersionTaskSpec extends Specification {
     """
 
         and:
-        stubFor(post(urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
+        stubFor(post(urlEqualTo(ANNOUNCE_ENDPOINT))
                 .willReturn(okJson("""{"status": 202, "message":"success"}""")))
 
         when:
@@ -60,20 +61,13 @@ class SdkAnnounceVersionTaskSpec extends Specification {
         then:
         result.output.contains('Announcing for grails x.y.z...')
         result.task(":sdkAnnounceVersion").outcome == SUCCESS
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson("""
+        verifyPost(ANNOUNCE_ENDPOINT,
+                """
                     {
                         "candidate": "grails", 
                         "version": "x.y.z", 
                         "hashtag": "grailsfw"
                     }
-                    """)
-                )
-        )
+                """)
     }
 }

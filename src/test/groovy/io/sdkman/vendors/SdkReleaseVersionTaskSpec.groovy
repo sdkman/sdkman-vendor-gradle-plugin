@@ -1,6 +1,5 @@
 package io.sdkman.vendors
 
-
 import com.github.tomakehurst.wiremock.junit.WireMockRule
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
@@ -9,6 +8,8 @@ import spock.lang.Specification
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
+import static io.sdkman.vendors.SdkMinorRelease.RELEASE_ENDPOINT
+import static io.sdkman.vendors.stubs.Stubs.verifyPost
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class SdkReleaseVersionTaskSpec extends Specification {
@@ -46,7 +47,7 @@ class SdkReleaseVersionTaskSpec extends Specification {
     """
 
         and:
-        stubFor(post(urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
+        stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
 
         when:
@@ -59,23 +60,15 @@ class SdkReleaseVersionTaskSpec extends Specification {
         then:
         result.output.contains('Releasing grails x.y.z...')
         result.task(":sdkReleaseVersion").outcome == SUCCESS
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
+        verifyPost(RELEASE_ENDPOINT,
+                """
                     {
                         "candidate":"grails",
                         "version":"x.y.z",
                         "platform":"UNIVERSAL",
                         "url":"https://host/grails-x.y.z.zip"
                     }
-                  """)
-                )
-        )
+                """)
     }
 
     def "should perform a PLATFORM SPECIFIC simple release"() {
@@ -98,7 +91,7 @@ class SdkReleaseVersionTaskSpec extends Specification {
     """
 
         and:
-        stubFor(post(urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
+        stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
 
         when:
@@ -111,22 +104,14 @@ class SdkReleaseVersionTaskSpec extends Specification {
         then:
         result.output.contains('Releasing grails x.y.z...')
         result.task(":sdkReleaseVersion").outcome == SUCCESS
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
+        verifyPost(RELEASE_ENDPOINT,
+                """
                     {
                         "candidate":"grails",
                         "version":"x.y.z",
                         "url":"https://host/grails-x.y.z.zip",
                         "platform":"MAC_OSX"
                     }
-                  """)
-                )
-        )
+                """)
     }
 }

@@ -2,6 +2,7 @@ package io.sdkman.vendors
 
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule
+import io.sdkman.vendors.stubs.Stubs
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -9,6 +10,11 @@ import spock.lang.Specification
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
+import static io.sdkman.vendors.SdkDefaultVersionTask.DEFAULT_ENDPOINT
+import static io.sdkman.vendors.SdkMinorRelease.ANNOUNCE_ENDPOINT
+import static io.sdkman.vendors.SdkMinorRelease.RELEASE_ENDPOINT
+import static io.sdkman.vendors.stubs.Stubs.verifyPost
+import static io.sdkman.vendors.stubs.Stubs.verifyPut
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class SdkConvenienceTaskSpec extends Specification {
@@ -47,9 +53,9 @@ class SdkConvenienceTaskSpec extends Specification {
     """
 
         and:
-        stubFor(post(urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
+        stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
-        stubFor(post(urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
+        stubFor(post(urlEqualTo(ANNOUNCE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
 
         when:
@@ -63,39 +69,23 @@ class SdkConvenienceTaskSpec extends Specification {
         result.output.contains('Releasing grails x.y.z...')
         result.output.contains('Announcing for grails x.y.z...')
         result.task(":sdkMinorRelease").outcome == SUCCESS
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
+        verifyPost(RELEASE_ENDPOINT,
+                """
                     {
                         "candidate":"grails",
                         "version":"x.y.z",
                         "platform":"UNIVERSAL",
                         "url":"https://host/grails-x.y.z.zip"
                     }
-                  """)
-                )
-        )
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
+                """)
+        verifyPost(ANNOUNCE_ENDPOINT,
+                """
                     {
                         "candidate": "grails", 
                         "version": "x.y.z", 
                         "hashtag": "grailsfw"
                     }
-                  """)
-                )
-        )
+                """)
     }
 
     def "should perform a major release with structured announcement"() {
@@ -118,9 +108,9 @@ class SdkConvenienceTaskSpec extends Specification {
     """
 
         and:
-        stubFor(post(urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
+        stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
-        stubFor(post(urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
+        stubFor(post(urlEqualTo(ANNOUNCE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
         stubFor(put(urlEqualTo(SdkMajorRelease.DEFAULT_ENDPOINT))
                 .willReturn(okJson("""{"status": 202, "message":"success"}""")))
@@ -136,53 +126,29 @@ class SdkConvenienceTaskSpec extends Specification {
         result.output.contains('Releasing grails x.y.z...')
         result.output.contains('Announcing for grails x.y.z...')
         result.task(":sdkMajorRelease").outcome == SUCCESS
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
+        verifyPost(RELEASE_ENDPOINT,
+                """
                     {
                         "candidate":"grails",
                         "version":"x.y.z",
                         "platform":"UNIVERSAL",
                         "url":"https://host/grails-x.y.z.zip"
                     }
-                  """)
-                )
-        )
-        verify(postRequestedFor(
-                urlEqualTo(SdkMinorRelease.ANNOUNCE_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
+                 """)
+        verifyPost(ANNOUNCE_ENDPOINT,
+                """
                     {
                         "candidate": "grails", 
                         "version": "x.y.z", 
                         "hashtag": "grailsfw"
                     }
-                  """)
-                )
-        )
-        verify(putRequestedFor(
-                urlEqualTo(SdkMajorRelease.DEFAULT_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
+                 """)
+        verifyPut(DEFAULT_ENDPOINT,
+                """
                     {
                         "candidate": "grails", 
                         "version": "x.y.z" 
                     }
-                  """)
-                )
-        )
+                """)
     }
 }

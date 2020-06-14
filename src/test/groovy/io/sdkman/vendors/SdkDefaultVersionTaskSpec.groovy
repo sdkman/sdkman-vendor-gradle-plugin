@@ -1,6 +1,5 @@
 package io.sdkman.vendors
 
-
 import com.github.tomakehurst.wiremock.junit.WireMockRule
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
@@ -9,6 +8,7 @@ import spock.lang.Specification
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
+import static io.sdkman.vendors.stubs.Stubs.verifyPut
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class SdkDefaultVersionTaskSpec extends Specification {
@@ -60,20 +60,12 @@ class SdkDefaultVersionTaskSpec extends Specification {
         then:
         result.output.contains('Releasing grails x.y.z as candidate default...')
         result.task(":sdkDefaultVersion").outcome == SUCCESS
-        verify(putRequestedFor(
-                urlEqualTo(SdkMajorRelease.DEFAULT_ENDPOINT))
-                .withHeader("Content-Type", equalTo("application/json"))
-                .withHeader("Accepts", equalTo("application/json"))
-                .withHeader("Consumer-Key", equalTo("SOME_KEY"))
-                .withHeader("Consumer-Token", equalTo("SOME_TOKEN"))
-                .withRequestBody(equalToJson(
-            """
+        verifyPut(SdkMajorRelease.DEFAULT_ENDPOINT,
+                """
                     {
                         "candidate": "grails", 
                         "version": "x.y.z" 
                     }
-                  """)
-                )
-        )
+                """)
     }
 }
