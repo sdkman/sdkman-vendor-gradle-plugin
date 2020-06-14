@@ -61,6 +61,7 @@ class SdkConvenienceTaskSpec extends Specification {
 
         then:
         result.output.contains('Releasing grails x.y.z...')
+        result.output.contains('Announcing for grails x.y.z...')
         result.task(":sdkMinorRelease").outcome == SUCCESS
         verify(postRequestedFor(
                 urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
@@ -133,6 +134,7 @@ class SdkConvenienceTaskSpec extends Specification {
 
         then:
         result.output.contains('Releasing grails x.y.z...')
+        result.output.contains('Announcing for grails x.y.z...')
         result.task(":sdkMajorRelease").outcome == SUCCESS
         verify(postRequestedFor(
                 urlEqualTo(SdkMinorRelease.RELEASE_ENDPOINT))
