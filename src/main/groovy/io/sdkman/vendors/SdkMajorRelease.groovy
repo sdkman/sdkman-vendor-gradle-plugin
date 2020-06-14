@@ -12,9 +12,11 @@ class SdkMajorRelease extends SdkMinorRelease {
     void executeTask() {
         super.executeTask()
 
-        logger.quiet("Defaulting $candidate $version...")
-        def values = [candidate: candidate, version: version]
-        def response = put(restClient, DEFAULT_ENDPOINT, consumerKey, consumerToken, values)
-        logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
+        withConnection(apiUrl, DEFAULT_ENDPOINT, consumerKey, consumerToken) { conn ->
+            logger.quiet("Defaulting $candidate $version...")
+            def values = [candidate: candidate, version: version]
+            def response = put(conn, values)
+            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
+        }
     }
 }
