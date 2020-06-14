@@ -1,5 +1,10 @@
 package io.sdkman.vendors
 
+import io.sdkman.vendors.tasks.SdkAnnounceVersionTask
+import io.sdkman.vendors.tasks.SdkDefaultVersionTask
+import io.sdkman.vendors.tasks.SdkMajorRelease
+import io.sdkman.vendors.tasks.SdkMinorRelease
+import io.sdkman.vendors.tasks.SdkReleaseVersionTask
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification

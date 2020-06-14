@@ -1,4 +1,4 @@
-package io.sdkman.vendors
+package io.sdkman.vendors.tasks
 
 class SdkAnnounceVersionTask extends SdkmanVendorBaseTask {
 

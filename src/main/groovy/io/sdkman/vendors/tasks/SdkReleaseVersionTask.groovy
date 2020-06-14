@@ -1,4 +1,6 @@
-package io.sdkman.vendors
+package io.sdkman.vendors.tasks
+
+import io.sdkman.vendors.tasks.SdkmanVendorBaseTask
 
 class SdkReleaseVersionTask extends SdkmanVendorBaseTask {
 

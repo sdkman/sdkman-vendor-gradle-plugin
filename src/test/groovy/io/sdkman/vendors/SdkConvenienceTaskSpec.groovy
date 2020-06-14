@@ -2,7 +2,7 @@ package io.sdkman.vendors
 
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule
-import io.sdkman.vendors.stubs.Stubs
+import io.sdkman.vendors.tasks.SdkMajorRelease
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -10,9 +10,9 @@ import spock.lang.Specification
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
-import static io.sdkman.vendors.SdkDefaultVersionTask.DEFAULT_ENDPOINT
-import static io.sdkman.vendors.SdkMinorRelease.ANNOUNCE_ENDPOINT
-import static io.sdkman.vendors.SdkMinorRelease.RELEASE_ENDPOINT
+import static io.sdkman.vendors.tasks.SdkDefaultVersionTask.DEFAULT_ENDPOINT
+import static io.sdkman.vendors.tasks.SdkMinorRelease.ANNOUNCE_ENDPOINT
+import static io.sdkman.vendors.tasks.SdkMinorRelease.RELEASE_ENDPOINT
 import static io.sdkman.vendors.stubs.Stubs.verifyPost
 import static io.sdkman.vendors.stubs.Stubs.verifyPut
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS

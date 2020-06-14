@@ -1,4 +1,4 @@
-package io.sdkman.vendors
+package io.sdkman.vendors.infra
 
 trait ApiConnectivity {
     def withConnection(String url, String path, String key, String token, fun) {

@@ -1,5 +1,8 @@
-package io.sdkman.vendors
+package io.sdkman.vendors.tasks
 
+import io.sdkman.vendors.infra.ApiConnectivity
+import io.sdkman.vendors.infra.ExceptionHandling
+import io.sdkman.vendors.infra.HttpVerbs
 import io.sdkman.vendors.validation.ConfigValidation
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input

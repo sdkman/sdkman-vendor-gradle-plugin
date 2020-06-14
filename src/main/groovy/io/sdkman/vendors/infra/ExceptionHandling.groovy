@@ -1,4 +1,4 @@
-package io.sdkman.vendors
+package io.sdkman.vendors.infra
 
 import groovy.json.JsonSlurper
 import org.gradle.api.logging.Logger

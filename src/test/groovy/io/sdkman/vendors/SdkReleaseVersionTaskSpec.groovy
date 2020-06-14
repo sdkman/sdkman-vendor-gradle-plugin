@@ -8,7 +8,7 @@ import spock.lang.Specification
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
-import static io.sdkman.vendors.SdkMinorRelease.RELEASE_ENDPOINT
+import static io.sdkman.vendors.tasks.SdkMinorRelease.RELEASE_ENDPOINT
 import static io.sdkman.vendors.stubs.Stubs.verifyPost
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 

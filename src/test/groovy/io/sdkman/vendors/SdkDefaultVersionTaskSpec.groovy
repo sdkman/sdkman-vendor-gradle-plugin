@@ -1,6 +1,7 @@
 package io.sdkman.vendors
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule
+import io.sdkman.vendors.tasks.SdkMajorRelease
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder

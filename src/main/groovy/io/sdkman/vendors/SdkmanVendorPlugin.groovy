@@ -1,6 +1,12 @@
 package io.sdkman.vendors
 
 import io.sdkman.vendors.model.SdkmanExtension
+import io.sdkman.vendors.tasks.SdkAnnounceVersionTask
+import io.sdkman.vendors.tasks.SdkDefaultVersionTask
+import io.sdkman.vendors.tasks.SdkMajorRelease
+import io.sdkman.vendors.tasks.SdkMinorRelease
+import io.sdkman.vendors.tasks.SdkReleaseVersionTask
+import io.sdkman.vendors.tasks.SdkmanVendorBaseTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
