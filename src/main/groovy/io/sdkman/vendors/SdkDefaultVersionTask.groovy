@@ -10,14 +10,11 @@ class SdkDefaultVersionTask extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        withConnection(apiUrl) {
-            logger.quiet("Releasing $candidate $version...")
-
+        withConnection(apiUrl, DEFAULT_ENDPOINT, consumerKey, consumerToken) { conn ->
+            logger.quiet("Releasing $candidate $version as candidate default...")
             def values = [candidate: candidate, version: version]
-
-            def response = put(restClient, DEFAULT_ENDPOINT, consumerKey, consumerToken, values)
-
-            logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
+            def response = put(conn, values)
+            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
         }
     }
 }
