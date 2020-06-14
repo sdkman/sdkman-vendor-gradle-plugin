@@ -2,7 +2,6 @@ package io.sdkman.vendors
 
 import groovy.json.JsonSlurper
 import org.gradle.api.logging.Logger
-import wslite.rest.RESTClientException
 
 trait ExceptionHandling {
 
@@ -12,7 +11,7 @@ trait ExceptionHandling {
         try {
             fun()
 
-        } catch (RESTClientException e) {
+        } catch (Throwable e) {
             def response = e.response
             if(response) {
                 def content = response.contentAsString

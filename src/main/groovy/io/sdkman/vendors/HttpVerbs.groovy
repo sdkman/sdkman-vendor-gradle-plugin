@@ -1,25 +1,23 @@
 package io.sdkman.vendors
 
-import wslite.rest.RESTClient
-import wslite.rest.Response
+
+import groovy.json.JsonOutput
 
 trait HttpVerbs {
 
-    Response post(RESTClient client, String path, String consumerKey, String consumerToken, Map values) {
-        client.post(path: path, headers: headers(consumerKey, consumerToken)) {
-            type "application/json"
-            json values
-        }
+    HttpURLConnection post(HttpURLConnection connection, Map values) {
+        call(connection, 'POST', values)
     }
 
-    Response put(RESTClient client, String path, String consumerKey, String consumerToken, Map values) {
-        client.put(path: path, headers: headers(consumerKey, consumerToken)) {
-            type "application/json"
-            json values
-        }
+    HttpURLConnection put(HttpURLConnection connection, Map values) {
+        call(connection, 'PUT', values)
     }
 
-    def headers(String key, String token) {
-        ["consumer_key": key, "consumer_token": token]
+    private call(HttpURLConnection connection, String method, Map values) {
+        connection.requestMethod = method
+        connection.outputStream.withWriter { writer ->
+            writer << JsonOutput.toJson(values)
+        }
+        connection
     }
 }
