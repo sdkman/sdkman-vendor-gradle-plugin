@@ -12,14 +12,11 @@ class SdkAnnounceVersionTask extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        withConnection(apiUrl) {
+        withConnection(apiUrl, ANNOUNCE_ENDPOINT, consumerKey, consumerToken) { conn ->
             logger.quiet("Announcing for $candidate $version...")
-
-            def values = [candidate: candidate, version: version, hashtag: hashtag ?: candidate ]
-
-            def response = post(restClient, ANNOUNCE_ENDPOINT, consumerKey, consumerToken, values)
-
-            logger.quiet("Response: ${response.statusCode}: ${response.contentAsString}...")
+            def values = [candidate: candidate, version: version, hashtag: hashtag ?: candidate]
+            def response = post(conn, values)
+            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
         }
     }
 }

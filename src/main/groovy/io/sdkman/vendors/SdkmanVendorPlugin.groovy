@@ -23,6 +23,7 @@ class SdkmanVendorPlugin implements Plugin<Project> {
             apiUrl = apiUrl ?: project.extensions.sdkman.api
             candidate = candidate ?: project.extensions.sdkman.candidate
             version = version ?: project.extensions.sdkman.version
+            platform = platform ?: project.extensions.sdkman.platform
             consumerKey = consumerKey ?: project.extensions.sdkman.consumerKey
             consumerToken = consumerToken ?: project.extensions.sdkman.consumerToken
         }
@@ -33,7 +34,6 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         configureCommon(task)
         return configureTask(task) {
             downloadUrl = downloadUrl ?: project.extensions.sdkman.url
-            platform = platform ?: project.extensions.sdkman.platform
         }
     }
 
@@ -52,7 +52,6 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         configureCommon(task)
         return configureTask(task) {
             downloadUrl = downloadUrl ?: project.extensions.sdkman.url
-            platform = platform ?: project.extensions.sdkman.platform
             hashtag = hashtag ?: project.extensions.sdkman.hashtag
         }
     }
