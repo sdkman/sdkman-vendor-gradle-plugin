@@ -16,7 +16,6 @@ class SdkMinorRelease extends SdkmanVendorBaseTask {
     @Override
     void executeTask() {
         execRelease(apiUrl, RELEASE_ENDPOINT, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
-
         execAnnounce(apiUrl, ANNOUNCE_ENDPOINT, candidate, version, hashtag, consumerKey, consumerToken)
     }
 }

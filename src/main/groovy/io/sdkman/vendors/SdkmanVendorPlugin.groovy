@@ -62,6 +62,14 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         }
     }
 
+    private Task configure(SdkMajorRelease task) {
+        configureCommon(task)
+        return configureTask(task) {
+            downloadUrl = downloadUrl ?: project.extensions.sdkman.url
+            hashtag = hashtag ?: project.extensions.sdkman.hashtag
+        }
+    }
+
     private static configureTask(Task task, Closure initializer) {
         task.project.afterEvaluate {
             def cl = initializer.clone()
