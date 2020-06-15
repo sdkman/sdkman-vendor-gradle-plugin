@@ -2,8 +2,6 @@ package io.sdkman.vendors.tasks
 
 class SdkReleaseVersionTask extends SdkmanVendorBaseTask {
 
-    static final RELEASE_ENDPOINT = "/release"
-
     String downloadUrl
 
     SdkReleaseVersionTask() {
@@ -12,6 +10,6 @@ class SdkReleaseVersionTask extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        execRelease(apiUrl, RELEASE_ENDPOINT, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
+        execRelease(apiUrl, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
     }
 }

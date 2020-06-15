@@ -21,8 +21,10 @@ abstract class SdkmanVendorBaseTask extends DefaultTask
     @Input
     String platform
 
+    @Input
     String consumerKey
 
+    @Input
     String consumerToken
 
     @TaskAction

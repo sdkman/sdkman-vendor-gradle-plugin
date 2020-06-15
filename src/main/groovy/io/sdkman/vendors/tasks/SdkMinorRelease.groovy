@@ -2,10 +2,6 @@ package io.sdkman.vendors.tasks
 
 class SdkMinorRelease extends SdkmanVendorBaseTask {
 
-    static final ANNOUNCE_ENDPOINT = "/announce/struct"
-
-    static final RELEASE_ENDPOINT = "/release"
-
     String downloadUrl
     String hashtag
 
@@ -15,7 +11,7 @@ class SdkMinorRelease extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        execRelease(apiUrl, RELEASE_ENDPOINT, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
-        execAnnounce(apiUrl, ANNOUNCE_ENDPOINT, candidate, version, hashtag, consumerKey, consumerToken)
+        execRelease(apiUrl, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
+        execAnnounce(apiUrl, candidate, version, hashtag, consumerKey, consumerToken)
     }
 }

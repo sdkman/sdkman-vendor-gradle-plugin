@@ -2,12 +2,6 @@ package io.sdkman.vendors.tasks
 
 class SdkMajorRelease extends SdkmanVendorBaseTask {
 
-    static final ANNOUNCE_ENDPOINT = "/announce/struct"
-
-    static final RELEASE_ENDPOINT = "/release"
-
-    static final DEFAULT_ENDPOINT = "/default"
-
     String downloadUrl
     String hashtag
 
@@ -17,8 +11,8 @@ class SdkMajorRelease extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        execRelease(apiUrl, RELEASE_ENDPOINT, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
-        execAnnounce(apiUrl, ANNOUNCE_ENDPOINT, candidate, version, hashtag, consumerKey, consumerToken)
-        execDefault(apiUrl, DEFAULT_ENDPOINT, candidate, version, consumerKey, consumerToken)
+        execRelease(apiUrl, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
+        execAnnounce(apiUrl, candidate, version, hashtag, consumerKey, consumerToken)
+        execDefault(apiUrl, candidate, version, consumerKey, consumerToken)
     }
 }

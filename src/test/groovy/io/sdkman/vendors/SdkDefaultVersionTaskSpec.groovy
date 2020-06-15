@@ -1,7 +1,6 @@
 package io.sdkman.vendors
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule
-import io.sdkman.vendors.tasks.SdkMajorRelease
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -9,6 +8,7 @@ import spock.lang.Specification
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
+import static io.sdkman.vendors.infra.ApiEndpoints.DEFAULT_ENDPOINT
 import static io.sdkman.vendors.stubs.Stubs.verifyPut
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
@@ -48,7 +48,7 @@ class SdkDefaultVersionTaskSpec extends Specification {
     """
 
         and:
-        stubFor(put(urlEqualTo(SdkMajorRelease.DEFAULT_ENDPOINT))
+        stubFor(put(urlEqualTo(DEFAULT_ENDPOINT))
                 .willReturn(okJson("""{"status": 202, "message":"success"}""")))
 
         when:
@@ -61,7 +61,7 @@ class SdkDefaultVersionTaskSpec extends Specification {
         then:
         result.output.contains('Releasing grails x.y.z as candidate default...')
         result.task(":sdkDefaultVersion").outcome == SUCCESS
-        verifyPut(SdkMajorRelease.DEFAULT_ENDPOINT,
+        verifyPut(DEFAULT_ENDPOINT,
                 """
                     {
                         "candidate": "grails", 
