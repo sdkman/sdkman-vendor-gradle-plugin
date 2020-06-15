@@ -28,7 +28,7 @@ class SdkReleaseVersionTaskSpec extends Specification {
         buildFile = testProjectDir.newFile('build.gradle')
     }
 
-    def "should perform a UNIVERSAL simple release"() {
+    def "should perform a single UNIVERSAL release"() {
         given:
         def baseUrl = api.baseUrl()
         settingsFile << "rootProject.name = 'release-test'"
@@ -58,7 +58,7 @@ class SdkReleaseVersionTaskSpec extends Specification {
                 .build()
 
         then:
-        result.output.contains('Releasing grails x.y.z...')
+        result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
         result.task(":sdkReleaseVersion").outcome == SUCCESS
         verifyPost(RELEASE_ENDPOINT,
                 """
@@ -71,7 +71,7 @@ class SdkReleaseVersionTaskSpec extends Specification {
                 """)
     }
 
-    def "should perform a PLATFORM SPECIFIC simple release"() {
+    def "should perform a single PLATFORM SPECIFIC release"() {
         given:
         def baseUrl = api.baseUrl()
         settingsFile << "rootProject.name = 'release-test'"
@@ -83,10 +83,11 @@ class SdkReleaseVersionTaskSpec extends Specification {
             api = "${baseUrl}"
             consumerKey = "SOME_KEY"
             consumerToken = "SOME_TOKEN"
-            candidate = "grails"
+            candidate = "micronaut"
             version = "x.y.z"
-            platform = "MAC_OSX"
-            url = "https://host/grails-x.y.z.zip"
+            platforms = [
+                "MAC_OSX":"https://host/micronaut-x.y.z-macosx.zip" 
+            ]
         }
     """
 
@@ -102,15 +103,82 @@ class SdkReleaseVersionTaskSpec extends Specification {
                 .build()
 
         then:
-        result.output.contains('Releasing grails x.y.z...')
+        result.output.contains('Releasing micronaut x.y.z for MAC_OSX...')
         result.task(":sdkReleaseVersion").outcome == SUCCESS
         verifyPost(RELEASE_ENDPOINT,
                 """
                     {
-                        "candidate":"grails",
+                        "candidate":"micronaut",
                         "version":"x.y.z",
-                        "url":"https://host/grails-x.y.z.zip",
+                        "url":"https://host/micronaut-x.y.z-macosx.zip",
                         "platform":"MAC_OSX"
+                    }
+                """)
+    }
+
+    def "should perform a multi PLATFORM SPECIFIC release"() {
+        given:
+        def baseUrl = api.baseUrl()
+        settingsFile << "rootProject.name = 'release-test'"
+        buildFile << """
+        plugins {
+            id 'io.sdkman.vendors'
+        }
+        sdkman {
+            api = "${baseUrl}"
+            consumerKey = "SOME_KEY"
+            consumerToken = "SOME_TOKEN"
+            candidate = "micronaut"
+            version = "x.y.z"
+            platforms = [
+                "MAC_OSX":"https://host/micronaut-x.y.z-macosx.zip",
+                "WINDOWS_64":"https://host/micronaut-x.y.z-win.zip", 
+                "LINUX_64":"https://host/micronaut-x.y.z-linux64.zip", 
+            ]
+        }
+    """
+
+        and:
+        stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
+                .willReturn(okJson("""{"status": 201, "message":"success"}""")))
+
+        when:
+        def result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('sdkReleaseVersion')
+                .withPluginClasspath()
+                .build()
+
+        then:
+        result.output.contains('Releasing micronaut x.y.z for MAC_OSX...')
+        result.output.contains('Releasing micronaut x.y.z for WINDOWS_64...')
+        result.output.contains('Releasing micronaut x.y.z for LINUX_64...')
+        result.task(":sdkReleaseVersion").outcome == SUCCESS
+        verifyPost(RELEASE_ENDPOINT,
+                """
+                    {
+                        "candidate":"micronaut",
+                        "version":"x.y.z",
+                        "url":"https://host/micronaut-x.y.z-macosx.zip",
+                        "platform":"MAC_OSX"
+                    }
+                """)
+        verifyPost(RELEASE_ENDPOINT,
+                """
+                    {
+                        "candidate":"micronaut",
+                        "version":"x.y.z",
+                        "url":"https://host/micronaut-x.y.z-win.zip",
+                        "platform":"WINDOWS_64"
+                    }
+                """)
+        verifyPost(RELEASE_ENDPOINT,
+                """
+                    {
+                        "candidate":"micronaut",
+                        "version":"x.y.z",
+                        "url":"https://host/micronaut-x.y.z-linux64.zip",
+                        "platform":"LINUX_64"
                     }
                 """)
     }

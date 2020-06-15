@@ -19,7 +19,7 @@ abstract class SdkmanVendorBaseTask extends DefaultTask
     String version
 
     @Input
-    String platform
+    Map<String, String> platforms
 
     @Input
     String consumerKey

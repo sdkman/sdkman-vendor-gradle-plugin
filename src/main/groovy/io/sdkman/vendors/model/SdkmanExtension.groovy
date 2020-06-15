@@ -12,9 +12,9 @@ class SdkmanExtension {
 
     String version
 
-    String platform = "UNIVERSAL"
-
     String url
+
+    Map<String, String> platforms
 
     String hashtag
 
@@ -26,7 +26,7 @@ class SdkmanExtension {
                 ", consumerToken='" + consumerToken + '\'' +
                 ", candidate='" + candidate + '\'' +
                 ", version='" + version + '\'' +
-                ", platform='" + platform + '\'' +
+                ", platforms='" + platforms + '\'' +
                 ", url='" + url + '\'' +
                 ", hashtag='" + hashtag + '\'' +
                 '}';

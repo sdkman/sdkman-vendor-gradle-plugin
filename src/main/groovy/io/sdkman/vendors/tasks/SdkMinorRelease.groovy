@@ -2,7 +2,7 @@ package io.sdkman.vendors.tasks
 
 class SdkMinorRelease extends SdkmanVendorBaseTask {
 
-    String downloadUrl
+    Map<String, String> platforms
     String hashtag
 
     SdkMinorRelease() {
@@ -11,7 +11,9 @@ class SdkMinorRelease extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        execRelease(apiUrl, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
+        platforms.each { String platform, String url ->
+            execRelease(apiUrl, candidate, version, platform, url, consumerKey, consumerToken)
+        }
         execAnnounce(apiUrl, candidate, version, hashtag, consumerKey, consumerToken)
     }
 }

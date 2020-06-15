@@ -27,20 +27,17 @@ class SdkmanVendorPlugin implements Plugin<Project> {
     private Task configureCommon(SdkmanVendorBaseTask task) {
         configureTask(task) {
             apiUrl = apiUrl ?: project.extensions.sdkman.api
-            candidate = candidate ?: project.extensions.sdkman.candidate
-            version = version ?: project.extensions.sdkman.version
-            platform = platform ?: project.extensions.sdkman.platform
-            consumerKey = consumerKey ?: project.extensions.sdkman.consumerKey
-            consumerToken = consumerToken ?: project.extensions.sdkman.consumerToken
+            candidate = project.extensions.sdkman.candidate ?: "change_me"
+            version = project.extensions.sdkman.version ?: "change_me"
+            consumerKey = project.extensions.sdkman.consumerKey ?: "change_me"
+            consumerToken = project.extensions.sdkman.consumerToken ?: "change_me"
+            platforms = project.extensions.sdkman.platforms ?: [UNIVERSAL: project.extensions.sdkman.url ?: "change_me" ]
         }
         return task
     }
 
     private Task configure(SdkReleaseVersionTask task) {
         configureCommon(task)
-        return configureTask(task) {
-            downloadUrl = downloadUrl ?: project.extensions.sdkman.url
-        }
     }
 
     private Task configure(SdkDefaultVersionTask task) {
@@ -50,23 +47,21 @@ class SdkmanVendorPlugin implements Plugin<Project> {
     private Task configure(SdkAnnounceVersionTask task) {
         configureCommon(task)
         return configureTask(task) {
-            hashtag = hashtag ?: project.extensions.sdkman.hashtag
+            hashtag = hashtag ? project.extensions.sdkman.candidate : project.extensions.sdkman.hashtag
         }
     }
 
     private Task configure(SdkMinorRelease task) {
         configureCommon(task)
         return configureTask(task) {
-            downloadUrl = downloadUrl ?: project.extensions.sdkman.url
-            hashtag = hashtag ?: project.extensions.sdkman.hashtag
+            hashtag = hashtag ? project.extensions.sdkman.candidate : project.extensions.sdkman.hashtag
         }
     }
 
     private Task configure(SdkMajorRelease task) {
         configureCommon(task)
         return configureTask(task) {
-            downloadUrl = downloadUrl ?: project.extensions.sdkman.url
-            hashtag = hashtag ?: project.extensions.sdkman.hashtag
+            hashtag = hashtag ? project.extensions.sdkman.candidate : project.extensions.sdkman.hashtag
         }
     }
 

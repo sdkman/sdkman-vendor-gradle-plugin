@@ -63,7 +63,7 @@ class SdkConvenienceTaskSpec extends Specification {
                 .build()
 
         then:
-        result.output.contains('Releasing grails x.y.z...')
+        result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
         result.output.contains('Announcing for grails x.y.z...')
         result.task(":sdkMinorRelease").outcome == SUCCESS
         verifyPost(RELEASE_ENDPOINT,
@@ -120,7 +120,7 @@ class SdkConvenienceTaskSpec extends Specification {
                 .build()
 
         then:
-        result.output.contains('Releasing grails x.y.z...')
+        result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
         result.output.contains('Announcing for grails x.y.z...')
         result.output.contains('Releasing grails x.y.z as candidate default...')
         result.task(":sdkMajorRelease").outcome == SUCCESS

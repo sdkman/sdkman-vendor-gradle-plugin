@@ -2,7 +2,7 @@ package io.sdkman.vendors.tasks
 
 class SdkMajorRelease extends SdkmanVendorBaseTask {
 
-    String downloadUrl
+    Map<String, String> platforms
     String hashtag
 
     SdkMajorRelease() {
@@ -11,7 +11,9 @@ class SdkMajorRelease extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        execRelease(apiUrl, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
+        platforms.each { platform, url ->
+            execRelease(apiUrl, candidate, version, platform, url, consumerKey, consumerToken)
+        }
         execAnnounce(apiUrl, candidate, version, hashtag, consumerKey, consumerToken)
         execDefault(apiUrl, candidate, version, consumerKey, consumerToken)
     }
