@@ -1,10 +1,7 @@
 package io.sdkman.vendors.model
 
-import org.hibernate.validator.constraints.URL
-
 class SdkmanExtension {
 
-    @URL
     String api = "https://vendors.sdkman.io"
 
     String consumerKey
@@ -17,7 +14,6 @@ class SdkmanExtension {
 
     String platform = "UNIVERSAL"
 
-    @URL
     String url
 
     String hashtag

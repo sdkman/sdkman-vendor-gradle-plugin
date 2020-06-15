@@ -2,30 +2,33 @@ package io.sdkman.vendors.tasks
 
 import io.sdkman.vendors.infra.ApiExecutions
 import io.sdkman.vendors.infra.ExceptionHandling
-import io.sdkman.vendors.validation.ConfigValidation
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
-import org.hibernate.validator.constraints.URL
-
-import javax.validation.constraints.NotNull
 
 abstract class SdkmanVendorBaseTask extends DefaultTask
-        implements ExceptionHandling, ApiExecutions, ConfigValidation {
+        implements ExceptionHandling, ApiExecutions {
 
-    @Input @URL @NotNull String apiUrl
-    @Input @NotNull String candidate
-    @Input @NotNull String version
-    @Input @NotNull String platform
-    @NotNull String consumerKey
-    @NotNull String consumerToken
+    @Input
+    String apiUrl
+
+    @Input
+    String candidate
+
+    @Input
+    String version
+
+    @Input
+    String platform
+
+    String consumerKey
+
+    String consumerToken
 
     @TaskAction
     void start() {
-        withTry(logger){
-            withValid(this) {
-                executeTask()
-            }
+        withTry(logger) {
+            executeTask()
         }
     }
 
