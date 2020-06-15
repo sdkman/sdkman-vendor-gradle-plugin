@@ -1,8 +1,7 @@
 package io.sdkman.vendors.tasks
 
-import io.sdkman.vendors.infra.ApiConnectivity
+import io.sdkman.vendors.infra.ApiExecutions
 import io.sdkman.vendors.infra.ExceptionHandling
-import io.sdkman.vendors.infra.HttpVerbs
 import io.sdkman.vendors.validation.ConfigValidation
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
@@ -12,7 +11,7 @@ import org.hibernate.validator.constraints.URL
 import javax.validation.constraints.NotNull
 
 abstract class SdkmanVendorBaseTask extends DefaultTask
-        implements ExceptionHandling, HttpVerbs, ApiConnectivity, ConfigValidation {
+        implements ExceptionHandling, ApiExecutions, ConfigValidation {
 
     @Input @URL @NotNull String apiUrl
     @Input @NotNull String candidate

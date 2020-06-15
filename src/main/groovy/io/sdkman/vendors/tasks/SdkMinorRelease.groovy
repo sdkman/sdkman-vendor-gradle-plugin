@@ -1,7 +1,5 @@
 package io.sdkman.vendors.tasks
 
-import io.sdkman.vendors.tasks.SdkmanVendorBaseTask
-
 class SdkMinorRelease extends SdkmanVendorBaseTask {
 
     static final ANNOUNCE_ENDPOINT = "/announce/struct"
@@ -24,11 +22,6 @@ class SdkMinorRelease extends SdkmanVendorBaseTask {
             logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
         }
 
-        withConnection(apiUrl, ANNOUNCE_ENDPOINT, consumerKey, consumerToken) { conn ->
-            logger.quiet("Announcing for $candidate $version...")
-            def announceValues = [candidate: candidate, version: version, hashtag: hashtag ?: candidate]
-            def response = post(conn, announceValues)
-            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
-        }
+        execAnnounce(apiUrl, ANNOUNCE_ENDPOINT, candidate, version, hashtag, consumerKey, consumerToken)
     }
 }
