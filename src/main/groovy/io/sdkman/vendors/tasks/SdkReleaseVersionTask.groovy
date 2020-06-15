@@ -1,7 +1,5 @@
 package io.sdkman.vendors.tasks
 
-import io.sdkman.vendors.tasks.SdkmanVendorBaseTask
-
 class SdkReleaseVersionTask extends SdkmanVendorBaseTask {
 
     static final RELEASE_ENDPOINT = "/release"
@@ -14,14 +12,6 @@ class SdkReleaseVersionTask extends SdkmanVendorBaseTask {
 
     @Override
     void executeTask() {
-        withConnection(apiUrl, RELEASE_ENDPOINT, consumerKey, consumerToken) { conn ->
-            logger.quiet("Releasing $candidate $version...")
-
-            def values = [candidate: candidate, version: version, url: downloadUrl, platform: platform ?: "UNIVERSAL"]
-
-            def response = post(conn, values)
-
-            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
-        }
+        execRelease(apiUrl, RELEASE_ENDPOINT, candidate, version, platform, downloadUrl, consumerKey, consumerToken)
     }
 }

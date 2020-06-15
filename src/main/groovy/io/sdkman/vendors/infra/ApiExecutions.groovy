@@ -20,4 +20,12 @@ trait ApiExecutions implements ApiConnectivity, HttpVerbs {
         }
     }
 
+    def execRelease(String host, String path, String candidate, String version, String platform, String downloadUrl, String key, String token) {
+        withConnection(host, path, key, token) { conn ->
+            logger.quiet("Releasing $candidate $version...")
+            def values = [candidate: candidate, version: version, platform: platform, url: downloadUrl]
+            def response = post(conn, values)
+            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
+        }
+    }
 }
