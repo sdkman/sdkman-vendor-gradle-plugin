@@ -11,12 +11,6 @@ class SdkMajorRelease extends SdkMinorRelease {
     @Override
     void executeTask() {
         super.executeTask()
-
-        withConnection(apiUrl, DEFAULT_ENDPOINT, consumerKey, consumerToken) { conn ->
-            logger.quiet("Defaulting $candidate $version...")
-            def values = [candidate: candidate, version: version]
-            def response = put(conn, values)
-            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
-        }
+        execDefault(apiUrl, DEFAULT_ENDPOINT, candidate, version, consumerKey, consumerToken)
     }
 }

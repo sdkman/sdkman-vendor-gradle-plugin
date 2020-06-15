@@ -125,6 +125,7 @@ class SdkConvenienceTaskSpec extends Specification {
         then:
         result.output.contains('Releasing grails x.y.z...')
         result.output.contains('Announcing for grails x.y.z...')
+        result.output.contains('Releasing grails x.y.z as candidate default...')
         result.task(":sdkMajorRelease").outcome == SUCCESS
         verifyPost(RELEASE_ENDPOINT,
                 """

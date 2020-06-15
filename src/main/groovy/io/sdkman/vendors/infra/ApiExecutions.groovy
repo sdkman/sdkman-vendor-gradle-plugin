@@ -11,4 +11,13 @@ trait ApiExecutions implements ApiConnectivity, HttpVerbs {
         }
     }
 
+    def execDefault(String host, String path, String candidate, String version, String key, String token) {
+        withConnection(host, path, key, token) { conn ->
+            logger.quiet("Releasing $candidate $version as candidate default...")
+            def values = [candidate: candidate, version: version]
+            def response = put(conn, values)
+            logger.quiet("Response: ${response.responseCode}: ${response.responseMessage}...")
+        }
+    }
+
 }
