@@ -24,23 +24,50 @@ It requires some configuration in the ```build.gradle``` file of the project.
 ```
 For users of Gradle 2.1 or greater:
 ```groovy
-	plugins {
-	  id "io.sdkman.vendors" version "1.2.1"
-	}
+    plugins {
+      id "io.sdkman.vendors" version "x.y.z"
+    }
 ```
-You will also need some configuration to interact with the remote API in order to publish and broadcast:
-```groovy
-	sdkman {
-		api = "https://vendors.sdkman.io/"
-		consumerKey = "SOME_KEY"
-		consumerToken = "SOME_TOKEN"
-		candidate = "grails"
-		version = "x.y.z"
-		url = "http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/grails-x.y.z.zip"
-		hashtag = "#grailsfw"
-	}
 
+You will also need some configuration to interact with the remote API in order to publish and broadcast. Two types
+of configuration are supported. The first is for UNIVERSAL binaries:
+
+```groovy
+    sdkman {
+        api = "https://vendors.sdkman.io/"
+        consumerKey = "SOME_KEY"
+        consumerToken = "SOME_TOKEN"
+        candidate = "grails"
+        version = "x.y.z"
+        url = "https://host/grails-x.y.z.zip"
+        hashtag = "grailsfw"
+    }
 ```
+
+The second type is for native platform-specific binaries:
+
+```groovy
+    sdkman {
+        api = "https://vendors.sdkman.io/"
+        consumerKey = "SOME_KEY"
+        consumerToken = "SOME_TOKEN"
+        candidate = "micronaut"
+        version = "x.y.z"
+        platforms = [
+            "MAC_OSX":"https://host/micronaut-x.y.z-macosx.zip",
+            "WINDOWS_64":"https://host/micronaut-x.y.z-win.zip", 
+            "LINUX_64":"https://host/micronaut-x.y.z-linux64.zip", 
+        ]
+        hashtag = "micronaut"
+    }
+```
+
+We currently support the following platforms:
+* `MAC_OSX`
+* `WINDOWS_64`
+* `LINUX_64`
+* `LINUX_32`
+
 #### Credentials
 
 The credentials for Vendors consisting of a security key and token can be obtained by raising an [Issue on Github](https://github.com/sdkman/sdkman-vendor-gradle-plugin).
