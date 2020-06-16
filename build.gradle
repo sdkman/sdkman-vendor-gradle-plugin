@@ -28,7 +28,7 @@ pluginBundle {
     website = 'http://sdkman.io/'
     vcsUrl = 'https://github.com/sdkman/gradle-sdkman-vendor-plugin'
     description = 'The SDKMAN Vendor Gradle Plugin.'
-    tags = ['sdkman', 'sdk', 'gvm', 'gvmtool']
+    tags = ['sdkman', 'sdk']
 
     plugins {
         sdkmanVendorPlugin {
