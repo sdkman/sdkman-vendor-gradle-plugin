@@ -16,7 +16,7 @@ It requires some configuration in the ```build.gradle``` file of the project.
 		}
 	  }
 	  dependencies {
-		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:1.2.1"
+		classpath "gradle.plugin.io.sdkman:gradle-sdkvendor-plugin:2.0.0"
 	  }
 	}
 
@@ -25,7 +25,7 @@ It requires some configuration in the ```build.gradle``` file of the project.
 For users of Gradle 2.1 or greater:
 ```groovy
     plugins {
-      id "io.sdkman.vendors" version "x.y.z"
+      id "io.sdkman.vendors" version "2.0.0"
     }
 ```
 
