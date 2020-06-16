@@ -1,13 +1,14 @@
 package io.sdkman.vendors.tasks
 
 import io.sdkman.vendors.infra.ApiExecutions
-import io.sdkman.vendors.infra.ExceptionHandling
+import io.sdkman.vendors.infra.ApiErrorResponseHandler
+import io.sdkman.vendors.infra.ApiResponse
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 abstract class SdkmanVendorBaseTask extends DefaultTask
-        implements ExceptionHandling, ApiExecutions {
+        implements ApiErrorResponseHandler, ApiExecutions {
 
     @Input
     String apiUrl
@@ -29,11 +30,11 @@ abstract class SdkmanVendorBaseTask extends DefaultTask
 
     @TaskAction
     void start() {
-        withTry(logger) {
+        handleNon2xxApiResponse {
             executeTask()
         }
     }
 
-    abstract void executeTask()
+    abstract ApiResponse executeTask()
 
 }

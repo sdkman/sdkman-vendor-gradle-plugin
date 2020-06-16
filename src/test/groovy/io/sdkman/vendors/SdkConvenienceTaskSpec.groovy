@@ -12,6 +12,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static io.sdkman.vendors.infra.ApiEndpoints.*
 import static io.sdkman.vendors.stubs.Stubs.verifyPost
 import static io.sdkman.vendors.stubs.Stubs.verifyPut
+import static org.gradle.testkit.runner.TaskOutcome.FAILED
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class SdkConvenienceTaskSpec extends Specification {
@@ -148,5 +149,86 @@ class SdkConvenienceTaskSpec extends Specification {
                         "version": "x.y.z" 
                     }
                 """)
+    }
+
+    def "should fail major release gracefully for any non-2xx error received from the API"() {
+        given:
+        def baseUrl = api.baseUrl()
+        settingsFile << "rootProject.name = 'release-test'"
+        buildFile << """
+        plugins {
+            id 'io.sdkman.vendors'
+        }
+        sdkman {
+            api = "${baseUrl}"
+            consumerKey = "SOME_KEY"
+            consumerToken = "SOME_TOKEN"
+            candidate = "grails"
+            version = "x.y.z"
+            url = "https://host/grails-x.y.z.zip"
+            hashtag = "grailsfw"
+        }
+    """
+
+        and:
+        stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
+                .willReturn(okJson("""{"status": 201, "message":"success"}""")))
+        stubFor(post(urlEqualTo(ANNOUNCE_ENDPOINT))
+                .willReturn(aResponse().withStatus(500)))
+        stubFor(put(urlEqualTo(DEFAULT_ENDPOINT))
+                .willReturn(okJson("""{"status": 202, "message":"success"}""")))
+
+        when:
+        def result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('sdkMajorRelease')
+                .withPluginClasspath()
+                .buildAndFail()
+
+        then:
+        result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
+        result.output.contains('Announcing for grails x.y.z...')
+        result.output.contains('Releasing grails x.y.z as candidate default...')
+        result.output.contains('Response: 500 Server Error')
+        result.task(":sdkMajorRelease").outcome == FAILED
+    }
+
+    def "should fail minor release gracefully for any non-2xx error received from the API"() {
+        given:
+        def baseUrl = api.baseUrl()
+        settingsFile << "rootProject.name = 'release-test'"
+        buildFile << """
+        plugins {
+            id 'io.sdkman.vendors'
+        }
+        sdkman {
+            api = "${baseUrl}"
+            consumerKey = "SOME_KEY"
+            consumerToken = "SOME_TOKEN"
+            candidate = "grails"
+            version = "x.y.z"
+            url = "https://host/grails-x.y.z.zip"
+            hashtag = "grailsfw"
+        }
+    """
+
+        and:
+        stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
+                .willReturn(aResponse().withStatus(500)))
+        stubFor(post(urlEqualTo(ANNOUNCE_ENDPOINT))
+                .willReturn(aResponse().withStatus(500)))
+
+        when:
+        def result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('sdkMinorRelease')
+                .withPluginClasspath()
+                .buildAndFail()
+
+        then:
+        result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
+        result.output.contains('Announcing for grails x.y.z...')
+        result.output.contains('Response: 500 Server Error')
+        result.task(":sdkMinorRelease").outcome == FAILED
     }
 }

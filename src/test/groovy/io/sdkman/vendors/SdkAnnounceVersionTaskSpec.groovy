@@ -1,5 +1,7 @@
 package io.sdkman.vendors
 
+import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.common.Json
 import com.github.tomakehurst.wiremock.junit.WireMockRule
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
@@ -10,6 +12,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static io.sdkman.vendors.infra.ApiEndpoints.ANNOUNCE_ENDPOINT
 import static io.sdkman.vendors.stubs.Stubs.verifyPost
+import static org.gradle.testkit.runner.TaskOutcome.FAILED
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class SdkAnnounceVersionTaskSpec extends Specification {
@@ -69,5 +72,41 @@ class SdkAnnounceVersionTaskSpec extends Specification {
                         "hashtag": "grailsfw"
                     }
                 """)
+    }
+
+    def "should fail gracefully for any non-2xx error received from the API"() {
+        given:
+        def baseUrl = api.baseUrl()
+        settingsFile << "rootProject.name = 'release-test'"
+        buildFile << """
+        plugins {
+            id 'io.sdkman.vendors'
+        }
+        sdkman {
+            api = "${baseUrl}"
+            consumerKey = "SOME_KEY"
+            consumerToken = "SOME_TOKEN"
+            candidate = "grails"
+            version = "x.y.z"
+            url = "https://host/grails-x.y.z.zip"
+            hashtag = "grailsfw"
+        }
+    """
+
+        and:
+        stubFor(post(urlEqualTo(ANNOUNCE_ENDPOINT))
+                .willReturn(aResponse().withStatus(400)))
+
+        when:
+        def result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('sdkAnnounceVersion')
+                .withPluginClasspath()
+                .buildAndFail()
+
+        then:
+        result.output.contains('Announcing for grails x.y.z...')
+        result.output.contains('Response: 400 Bad Request')
+        result.task(":sdkAnnounceVersion").outcome == FAILED
     }
 }

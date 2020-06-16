@@ -1,5 +1,7 @@
 package io.sdkman.vendors.tasks
 
+import io.sdkman.vendors.infra.ApiResponse
+
 class SdkDefaultVersionTask extends SdkmanVendorBaseTask {
 
     SdkDefaultVersionTask() {
@@ -7,7 +9,7 @@ class SdkDefaultVersionTask extends SdkmanVendorBaseTask {
     }
 
     @Override
-    void executeTask() {
+    ApiResponse executeTask() {
         execDefault(apiUrl, candidate, version, consumerKey, consumerToken)
     }
 }
