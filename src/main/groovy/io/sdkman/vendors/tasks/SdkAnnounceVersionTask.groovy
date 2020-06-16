@@ -1,9 +1,11 @@
 package io.sdkman.vendors.tasks
 
 import io.sdkman.vendors.infra.ApiResponse
+import org.gradle.api.tasks.Input
 
 class SdkAnnounceVersionTask extends SdkmanVendorBaseTask {
 
+    @Input
     String hashtag
 
     SdkAnnounceVersionTask() {

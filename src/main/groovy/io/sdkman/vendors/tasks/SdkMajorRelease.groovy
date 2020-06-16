@@ -1,10 +1,14 @@
 package io.sdkman.vendors.tasks
 
 import io.sdkman.vendors.infra.ApiResponse
+import org.gradle.api.tasks.Input
 
 class SdkMajorRelease extends SdkmanVendorBaseTask {
 
+    @Input
     Map<String, String> platforms
+
+    @Input
     String hashtag
 
     SdkMajorRelease() {

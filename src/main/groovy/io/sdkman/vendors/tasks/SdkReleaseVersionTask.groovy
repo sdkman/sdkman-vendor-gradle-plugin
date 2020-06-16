@@ -1,9 +1,11 @@
 package io.sdkman.vendors.tasks
 
 import io.sdkman.vendors.infra.ApiResponse
+import org.gradle.api.tasks.Input
 
 class SdkReleaseVersionTask extends SdkmanVendorBaseTask {
 
+    @Input
     Map<String, String> platforms
 
     SdkReleaseVersionTask() {
