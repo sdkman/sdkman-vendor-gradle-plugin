@@ -34,7 +34,7 @@ of configuration are supported. The first is for UNIVERSAL binaries:
 
 ```groovy
     sdkman {
-        api = "https://vendors.sdkman.io/"
+        api = "https://vendors.sdkman.io"
         consumerKey = "SOME_KEY"
         consumerToken = "SOME_TOKEN"
         candidate = "grails"
@@ -48,7 +48,7 @@ The second type is for native platform-specific binaries:
 
 ```groovy
     sdkman {
-        api = "https://vendors.sdkman.io/"
+        api = "https://vendors.sdkman.io"
         consumerKey = "SOME_KEY"
         consumerToken = "SOME_TOKEN"
         candidate = "micronaut"
