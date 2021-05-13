@@ -1,54 +1,24 @@
 package io.sdkman.vendors
 
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule
-import org.gradle.testkit.runner.GradleRunner
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
-import spock.lang.Specification
-
 import static com.github.tomakehurst.wiremock.client.WireMock.*
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static io.sdkman.vendors.infra.ApiEndpoints.*
 import static io.sdkman.vendors.stubs.Stubs.verifyPost
 import static io.sdkman.vendors.stubs.Stubs.verifyPut
 import static org.gradle.testkit.runner.TaskOutcome.FAILED
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-class SdkConvenienceTaskSpec extends Specification {
-
-    @Rule
-    WireMockRule api = new WireMockRule(options().dynamicPort())
-
-    @Rule
-    TemporaryFolder testProjectDir = new TemporaryFolder()
-
-    File settingsFile
-    File buildFile
-
-    def setup() {
-        settingsFile = testProjectDir.newFile('settings.gradle')
-        buildFile = testProjectDir.newFile('build.gradle')
-    }
-
+class SdkConvenienceTaskSpec extends AbstractIntegrationSpec {
     def "should perform a minor release with structured announcement"() {
         given:
-        def baseUrl = api.baseUrl()
-        settingsFile << "rootProject.name = 'release-test'"
         buildFile << """
-        plugins {
-            id 'io.sdkman.vendors'
-        }
-        sdkman {
-            api = "${baseUrl}"
-            consumerKey = "SOME_KEY"
-            consumerToken = "SOME_TOKEN"
-            candidate = "grails"
-            version = "x.y.z"
-            url = "https://host/grails-x.y.z.zip"
-            hashtag = "grailsfw"
-        }
-    """
+            sdkman {
+                candidate = "grails"
+                version = "x.y.z"
+                url = "https://host/grails-x.y.z.zip"
+                hashtag = "grailsfw"
+            }
+        """
 
         and:
         stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
@@ -57,11 +27,7 @@ class SdkConvenienceTaskSpec extends Specification {
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('sdkMinorRelease')
-                .withPluginClasspath()
-                .build()
+        succeeds('sdkMinorRelease')
 
         then:
         result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
@@ -88,22 +54,14 @@ class SdkConvenienceTaskSpec extends Specification {
 
     def "should perform a major release with structured announcement"() {
         given:
-        def baseUrl = api.baseUrl()
-        settingsFile << "rootProject.name = 'release-test'"
         buildFile << """
-        plugins {
-            id 'io.sdkman.vendors'
-        }
-        sdkman {
-            api = "${baseUrl}"
-            consumerKey = "SOME_KEY"
-            consumerToken = "SOME_TOKEN"
-            candidate = "grails"
-            version = "x.y.z"
-            url = "https://host/grails-x.y.z.zip"
-            hashtag = "grailsfw"
-        }
-    """
+            sdkman {
+                candidate = "grails"
+                version = "x.y.z"
+                url = "https://host/grails-x.y.z.zip"
+                hashtag = "grailsfw"
+            }
+        """
 
         and:
         stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
@@ -114,11 +72,7 @@ class SdkConvenienceTaskSpec extends Specification {
                 .willReturn(okJson("""{"status": 202, "message":"success"}""")))
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('sdkMajorRelease')
-                .withPluginClasspath()
-                .build()
+        succeeds('sdkMajorRelease')
 
         then:
         result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
@@ -153,22 +107,14 @@ class SdkConvenienceTaskSpec extends Specification {
 
     def "should fail major release gracefully for any non-2xx error received from the API"() {
         given:
-        def baseUrl = api.baseUrl()
-        settingsFile << "rootProject.name = 'release-test'"
         buildFile << """
-        plugins {
-            id 'io.sdkman.vendors'
-        }
-        sdkman {
-            api = "${baseUrl}"
-            consumerKey = "SOME_KEY"
-            consumerToken = "SOME_TOKEN"
-            candidate = "grails"
-            version = "x.y.z"
-            url = "https://host/grails-x.y.z.zip"
-            hashtag = "grailsfw"
-        }
-    """
+            sdkman {
+                candidate = "grails"
+                version = "x.y.z"
+                url = "https://host/grails-x.y.z.zip"
+                hashtag = "grailsfw"
+            }
+        """
 
         and:
         stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
@@ -179,38 +125,25 @@ class SdkConvenienceTaskSpec extends Specification {
                 .willReturn(okJson("""{"status": 202, "message":"success"}""")))
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('sdkMajorRelease')
-                .withPluginClasspath()
-                .buildAndFail()
+        fails('sdkMajorRelease')
 
         then:
         result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
         result.output.contains('Announcing for grails x.y.z...')
-        result.output.contains('Releasing grails x.y.z as candidate default...')
         result.output.contains('Response: 500 Server Error')
-        result.task(":sdkMajorRelease").outcome == FAILED
+        result.task(":sdkAnnounceVersion").outcome == FAILED
     }
 
     def "should fail minor release gracefully for any non-2xx error received from the API"() {
         given:
-        def baseUrl = api.baseUrl()
-        settingsFile << "rootProject.name = 'release-test'"
         buildFile << """
-        plugins {
-            id 'io.sdkman.vendors'
-        }
-        sdkman {
-            api = "${baseUrl}"
-            consumerKey = "SOME_KEY"
-            consumerToken = "SOME_TOKEN"
-            candidate = "grails"
-            version = "x.y.z"
-            url = "https://host/grails-x.y.z.zip"
-            hashtag = "grailsfw"
-        }
-    """
+            sdkman {
+                candidate = "grails"
+                version = "x.y.z"
+                url = "https://host/grails-x.y.z.zip"
+                hashtag = "grailsfw"
+            }
+        """
 
         and:
         stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
@@ -219,16 +152,11 @@ class SdkConvenienceTaskSpec extends Specification {
                 .willReturn(aResponse().withStatus(500)))
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('sdkMinorRelease')
-                .withPluginClasspath()
-                .buildAndFail()
+        fails('sdkMinorRelease')
 
         then:
         result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
-        result.output.contains('Announcing for grails x.y.z...')
         result.output.contains('Response: 500 Server Error')
-        result.task(":sdkMinorRelease").outcome == FAILED
+        result.task(":sdkReleaseVersion").outcome == FAILED
     }
 }
