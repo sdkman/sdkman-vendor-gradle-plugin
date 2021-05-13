@@ -1,62 +1,29 @@
 package io.sdkman.vendors
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule
-import org.gradle.testkit.runner.GradleRunner
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
-import spock.lang.Specification
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static io.sdkman.vendors.infra.ApiEndpoints.RELEASE_ENDPOINT
 import static io.sdkman.vendors.stubs.Stubs.verifyPost
 import static org.gradle.testkit.runner.TaskOutcome.FAILED
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-class SdkReleaseVersionTaskSpec extends Specification {
-
-    @Rule
-    WireMockRule api = new WireMockRule(options().dynamicPort())
-
-    @Rule
-    TemporaryFolder testProjectDir = new TemporaryFolder()
-
-    File settingsFile
-    File buildFile
-
-    def setup() {
-        settingsFile = testProjectDir.newFile('settings.gradle')
-        buildFile = testProjectDir.newFile('build.gradle')
-    }
-
+class SdkReleaseVersionSpec extends AbstractIntegrationSpec {
     def "should perform a single UNIVERSAL release"() {
         given:
-        def baseUrl = api.baseUrl()
-        settingsFile << "rootProject.name = 'release-test'"
         buildFile << """
-        plugins {
-            id 'io.sdkman.vendors'
-        }
-        sdkman {
-            api = "${baseUrl}"
-            consumerKey = "SOME_KEY"
-            consumerToken = "SOME_TOKEN"
-            candidate = "grails"
-            version = "x.y.z"
-            url = "https://host/grails-x.y.z.zip"
-        }
-    """
+            sdkman {
+                candidate = "grails"
+                version = "x.y.z"
+                url = "https://host/grails-x.y.z.zip"
+            }
+        """
 
         and:
         stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('sdkReleaseVersion')
-                .withPluginClasspath()
-                .build()
+        succeeds('sdkReleaseVersion')
 
         then:
         result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
@@ -74,34 +41,22 @@ class SdkReleaseVersionTaskSpec extends Specification {
 
     def "should perform a single PLATFORM SPECIFIC release"() {
         given:
-        def baseUrl = api.baseUrl()
-        settingsFile << "rootProject.name = 'release-test'"
         buildFile << """
-        plugins {
-            id 'io.sdkman.vendors'
-        }
-        sdkman {
-            api = "${baseUrl}"
-            consumerKey = "SOME_KEY"
-            consumerToken = "SOME_TOKEN"
-            candidate = "micronaut"
-            version = "x.y.z"
-            platforms = [
-                "MAC_OSX":"https://host/micronaut-x.y.z-macosx.zip" 
-            ]
-        }
-    """
+            sdkman {
+                candidate = "micronaut"
+                version = "x.y.z"
+                platforms = [
+                    "MAC_OSX":"https://host/micronaut-x.y.z-macosx.zip" 
+                ]
+            }
+        """
 
         and:
         stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('sdkReleaseVersion')
-                .withPluginClasspath()
-                .build()
+        succeeds('sdkReleaseVersion')
 
         then:
         result.output.contains('Releasing micronaut x.y.z for MAC_OSX...')
@@ -119,36 +74,24 @@ class SdkReleaseVersionTaskSpec extends Specification {
 
     def "should perform a multi PLATFORM SPECIFIC release"() {
         given:
-        def baseUrl = api.baseUrl()
-        settingsFile << "rootProject.name = 'release-test'"
         buildFile << """
-        plugins {
-            id 'io.sdkman.vendors'
-        }
-        sdkman {
-            api = "${baseUrl}"
-            consumerKey = "SOME_KEY"
-            consumerToken = "SOME_TOKEN"
-            candidate = "micronaut"
-            version = "x.y.z"
-            platforms = [
-                "MAC_OSX":"https://host/micronaut-x.y.z-macosx.zip",
-                "WINDOWS_64":"https://host/micronaut-x.y.z-win.zip", 
-                "LINUX_64":"https://host/micronaut-x.y.z-linux64.zip", 
-            ]
-        }
-    """
+            sdkman {
+                candidate = "micronaut"
+                version = "x.y.z"
+                platforms = [
+                    "MAC_OSX":"https://host/micronaut-x.y.z-macosx.zip",
+                    "WINDOWS_64":"https://host/micronaut-x.y.z-win.zip", 
+                    "LINUX_64":"https://host/micronaut-x.y.z-linux64.zip", 
+                ]
+            }
+        """
 
         and:
         stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
                 .willReturn(okJson("""{"status": 201, "message":"success"}""")))
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('sdkReleaseVersion')
-                .withPluginClasspath()
-                .build()
+        succeeds('sdkReleaseVersion')
 
         then:
         result.output.contains('Releasing micronaut x.y.z for MAC_OSX...')
@@ -186,37 +129,23 @@ class SdkReleaseVersionTaskSpec extends Specification {
 
     def "should fail gracefully for any non-2xx error received from the API"() {
         given:
-        def baseUrl = api.baseUrl()
-        settingsFile << "rootProject.name = 'release-test'"
         buildFile << """
-        plugins {
-            id 'io.sdkman.vendors'
-        }
-        sdkman {
-            api = "${baseUrl}"
-            consumerKey = "SOME_KEY"
-            consumerToken = "SOME_TOKEN"
-            candidate = "grails"
-            version = "x.y.z"
-            url = "https://host/grails-x.y.z.zip"
-        }
-    """
+            sdkman {
+                candidate = "grails"
+                version = "x.y.z"
+                url = "https://host/grails-x.y.z.zip"
+            }
+        """
 
         and:
         stubFor(post(urlEqualTo(RELEASE_ENDPOINT))
                 .willReturn(aResponse().withStatus(500)))
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('sdkReleaseVersion')
-                .withPluginClasspath()
-                .buildAndFail()
-
+        fails('sdkReleaseVersion')
         then:
         result.output.contains('Releasing grails x.y.z for UNIVERSAL...')
         result.output.contains('Response: 500 Server Error')
         result.task(":sdkReleaseVersion").outcome == FAILED
     }
-
 }

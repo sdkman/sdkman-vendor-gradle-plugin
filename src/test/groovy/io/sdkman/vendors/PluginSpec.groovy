@@ -1,10 +1,9 @@
 package io.sdkman.vendors
 
-import io.sdkman.vendors.tasks.SdkAnnounceVersionTask
-import io.sdkman.vendors.tasks.SdkDefaultVersionTask
-import io.sdkman.vendors.tasks.SdkMajorRelease
-import io.sdkman.vendors.tasks.SdkMinorRelease
-import io.sdkman.vendors.tasks.SdkReleaseVersionTask
+import io.sdkman.vendors.tasks.SdkAnnounceVersion
+import io.sdkman.vendors.tasks.SdkDefaultVersion
+
+import io.sdkman.vendors.tasks.SdkReleaseVersion
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
@@ -24,17 +23,14 @@ class PluginSpec extends Specification{
     def "should add tasks"() {
 
         expect:
-        project.tasks.sdkReleaseVersion instanceof SdkReleaseVersionTask
-        project.tasks.sdkAnnounceVersion instanceof SdkAnnounceVersionTask
-        project.tasks.sdkDefaultVersion instanceof SdkDefaultVersionTask
-        project.tasks.sdkMajorRelease instanceof SdkMajorRelease
-        project.tasks.sdkMinorRelease instanceof SdkMinorRelease
+        project.tasks.sdkReleaseVersion instanceof SdkReleaseVersion
+        project.tasks.sdkAnnounceVersion instanceof SdkAnnounceVersion
+        project.tasks.sdkDefaultVersion instanceof SdkDefaultVersion
     }
 
     def "should add extension"() {
-
         expect:
         project.extensions.sdkman
-        project.extensions.sdkman.api == "https://vendors.sdkman.io"
+        project.extensions.sdkman.apiUrl.get() == "https://vendors.sdkman.io"
     }
 }
