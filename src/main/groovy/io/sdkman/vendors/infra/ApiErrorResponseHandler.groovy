@@ -1,8 +1,6 @@
 package io.sdkman.vendors.infra
 
-import groovy.json.JsonSlurper
 import org.gradle.api.GradleException
-import org.gradle.api.logging.Logger
 
 trait ApiErrorResponseHandler {
 

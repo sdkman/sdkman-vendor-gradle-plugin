@@ -1,34 +1,36 @@
 package io.sdkman.vendors.model
 
-class SdkmanExtension {
+import groovy.transform.CompileStatic
+import org.gradle.api.credentials.PasswordCredentials
+import org.gradle.api.provider.MapProperty
+import org.gradle.api.provider.Property
 
-    String api = "https://vendors.sdkman.io"
+@CompileStatic
+abstract class SdkmanExtension {
+    abstract Property<String> getApiUrl()
 
-    String consumerKey
+    abstract Property<PasswordCredentials> getCredentials()
 
-    String consumerToken
+    abstract Property<String> getCandidate()
 
-    String candidate
+    abstract Property<String> getVersion()
 
-    String version
+    abstract Property<String> getUrl()
 
-    String url
+    abstract MapProperty<String, String> getPlatforms()
 
-    Map<String, String> platforms
-
-    String hashtag
+    abstract Property<String> getHashtag()
 
     @Override
-    public String toString() {
+    String toString() {
         return "SdkmanExtension{" +
-                "api='" + api + '\'' +
-                ", consumerKey='" + consumerKey + '\'' +
-                ", consumerToken='" + consumerToken + '\'' +
-                ", candidate='" + candidate + '\'' +
-                ", version='" + version + '\'' +
-                ", platforms='" + platforms + '\'' +
-                ", url='" + url + '\'' +
-                ", hashtag='" + hashtag + '\'' +
+                "api='" + apiUrl.getOrNull() + '\'' +
+                ", credentials available?='" + credentials.isPresent() + '\'' +
+                ", candidate='" + candidate.getOrNull() + '\'' +
+                ", version='" + version.getOrNull() + '\'' +
+                ", platforms='" + platforms.getOrNull() + '\'' +
+                ", url='" + url.getOrNull() + '\'' +
+                ", hashtag='" + hashtag.getOrNull() + '\'' +
                 '}';
     }
 }
