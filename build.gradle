@@ -1,6 +1,7 @@
 plugins {
-    id "groovy"
-    id 'java-gradle-plugin'
+    id 'groovy-gradle-plugin'
+    id 'distribution'
+    id 'maven-publish'
     id "com.gradle.plugin-publish" version "0.12.0"
 }
 
@@ -15,13 +16,24 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+java {
+    withSourcesJar()
+}
+
 dependencies {
-    implementation gradleApi()
     implementation 'org.codehaus.groovy:groovy-all:2.5.12'
     testImplementation 'org.spockframework.spock:spock-core:spock-1.3'
     testImplementation 'cglib:cglib-nodep:3.1'
     testImplementation 'com.github.tomakehurst:wiremock:2.26.3'
-    testImplementation gradleTestKit()
+}
+
+gradlePlugin {
+    plugins {
+        sdkmanVendorPlugin {
+            id = 'io.sdkman.vendors'
+            implementationClass = 'io.sdkman.vendors.SdkmanVendorPlugin'
+        }
+    }
 }
 
 pluginBundle {
@@ -38,8 +50,6 @@ pluginBundle {
     }
 }
 
-apply plugin: 'distribution'
-
 distributions {
     main {
         distributionBaseName = archivesBaseName
@@ -49,26 +59,12 @@ distributions {
     }
 }
 
-ext {
-    bintrayBaseUrl = 'https://api.bintray.com/maven'
-    bintrayUsername = 'sdkman'
-    bintrayRepository = 'gradle-plugins'
-    bintrayPackage = 'sdkman-vendor-gradle-plugin'
-}
-
-apply plugin: 'maven-publish'
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'source'
-}
-
 publishing {
     publications {
         plugin(MavenPublication) {
             from components.java
 
-            artifact sourceJar {
+            artifact sourcesJar {
                 classifier "sources"
             }
 
@@ -88,18 +84,6 @@ publishing {
                 developer.appendNode('email', 'marco@sdkman.io')
             }
 
-        }
-    }
-
-    repositories {
-        maven {
-            name 'Bintray'
-            url "$bintrayBaseUrl/$bintrayUsername/$bintrayRepository/$bintrayPackage"
-
-            credentials {
-                username = System.getenv('BINTRAY_USERNAME') ?: 'invalid_user'
-                password = System.getenv('BINTRAY_API_KEY') ?: 'invalid_key'
-            }
         }
     }
 }
