@@ -19,8 +19,3 @@ trait ApiConnectivity {
         apiResponse
     }
 }
-
-class ApiResponse {
-    Integer code
-    String message
-}

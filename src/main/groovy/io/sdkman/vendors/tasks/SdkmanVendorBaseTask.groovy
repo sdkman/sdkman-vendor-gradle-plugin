@@ -1,40 +1,28 @@
 package io.sdkman.vendors.tasks
 
-import io.sdkman.vendors.infra.ApiExecutions
-import io.sdkman.vendors.infra.ApiErrorResponseHandler
-import io.sdkman.vendors.infra.ApiResponse
+import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
+import org.gradle.api.credentials.PasswordCredentials
+import org.gradle.api.provider.MapProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.Nested
 
-abstract class SdkmanVendorBaseTask extends DefaultTask
-        implements ApiErrorResponseHandler, ApiExecutions {
-
-    @Input
-    String apiUrl
+@CompileStatic
+abstract class SdkmanVendorBaseTask extends DefaultTask {
 
     @Input
-    String candidate
+    abstract Property<String> getApiUrl()
 
     @Input
-    String version
+    abstract Property<String> getCandidate()
 
     @Input
-    Map<String, String> platforms
+    abstract Property<String> getVersion()
 
     @Input
-    String consumerKey
+    abstract MapProperty<String, String> getPlatforms()
 
-    @Input
-    String consumerToken
-
-    @TaskAction
-    void start() {
-        handleNon2xxApiResponse {
-            executeTask()
-        }
-    }
-
-    abstract ApiResponse executeTask()
-
+    @Nested
+    abstract Property<PasswordCredentials> getCredentials()
 }
