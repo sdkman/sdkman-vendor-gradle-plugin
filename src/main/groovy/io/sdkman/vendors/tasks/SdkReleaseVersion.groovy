@@ -11,10 +11,9 @@ abstract class SdkReleaseVersion extends SdkmanVendorBaseTask implements ApiErro
     @TaskAction
     void start() {
         handleNon2xxApiResponse {
-            def credentials = credentials.get()
             Map<String, String> declaredPlatforms = platforms.get()
             List<ApiResponse> responses = declaredPlatforms.collect { String platform, String url ->
-                execRelease(apiUrl.get(), candidate.get(), version.get(), platform, url, credentials.username, credentials.password)
+                execRelease(apiUrl.get(), candidate.get(), version.get(), platform, url, consumerKey.get(), consumerToken.get())
             }
             responses.find { !(it.code in 200..299) } ?: responses.last()
         }

@@ -15,8 +15,7 @@ abstract class SdkAnnounceVersion extends SdkmanVendorBaseTask implements ApiErr
     @TaskAction
     void start() {
         handleNon2xxApiResponse {
-            def credentials = credentials.get()
-            execAnnounce(apiUrl.get(), candidate.get(), version.get(), hashtag.get(), credentials.username, credentials.password)
+            execAnnounce(apiUrl.get(), candidate.get(), version.get(), hashtag.get(), consumerKey.get(), consumerToken.get())
         }
     }
 }

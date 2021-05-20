@@ -1,7 +1,6 @@
 package io.sdkman.vendors.model
 
 import groovy.transform.CompileStatic
-import org.gradle.api.credentials.PasswordCredentials
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 
@@ -9,7 +8,9 @@ import org.gradle.api.provider.Property
 abstract class SdkmanExtension {
     abstract Property<String> getApiUrl()
 
-    abstract Property<PasswordCredentials> getCredentials()
+    abstract Property<String> getConsumerKey()
+
+    abstract Property<String> getConsumerToken()
 
     abstract Property<String> getCandidate()
 
@@ -25,7 +26,7 @@ abstract class SdkmanExtension {
     String toString() {
         return "SdkmanExtension{" +
                 "api='" + apiUrl.getOrNull() + '\'' +
-                ", credentials available?='" + credentials.isPresent() + '\'' +
+                ", credentials available?='" + (consumerKey.isPresent() && consumerToken.isPresent()) + '\'' +
                 ", candidate='" + candidate.getOrNull() + '\'' +
                 ", version='" + version.getOrNull() + '\'' +
                 ", platforms='" + platforms.getOrNull() + '\'' +
