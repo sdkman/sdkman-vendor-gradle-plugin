@@ -10,8 +10,7 @@ abstract class SdkDefaultVersion extends SdkmanVendorBaseTask implements ApiErro
     @TaskAction
     void start() {
         handleNon2xxApiResponse {
-            def credentials = credentials.get()
-            execDefault(apiUrl.get(), candidate.get(), version.get(), credentials.username, credentials.password)
+            execDefault(apiUrl.get(), candidate.get(), version.get(), consumerKey.get(), consumerToken.get())
         }
     }
 }

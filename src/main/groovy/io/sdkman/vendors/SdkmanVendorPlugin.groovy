@@ -8,7 +8,6 @@ import io.sdkman.vendors.tasks.SdkReleaseVersion
 import io.sdkman.vendors.tasks.SdkmanVendorBaseTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.credentials.PasswordCredentials
 
 @CompileStatic
 class SdkmanVendorPlugin implements Plugin<Project> {
@@ -18,7 +17,8 @@ class SdkmanVendorPlugin implements Plugin<Project> {
 
         // Default values for the sdkman extension
         extension.apiUrl.convention("https://vendors.sdkman.io")
-        extension.credentials.convention(project.providers.credentials(PasswordCredentials, "SDKMAN"))
+        extension.consumerKey.convention(project.providers.environmentVariable("SDKMAN_KEY"))
+        extension.consumerToken.convention(project.providers.environmentVariable("SDKMAN_TOKEN"))
         extension.platforms.convention(extension.url.map({ url -> [UNIVERSAL: url] }))
 
         // Wire extension into tasks
@@ -27,7 +27,8 @@ class SdkmanVendorPlugin implements Plugin<Project> {
             task.candidate.convention(extension.candidate)
             task.version.convention(extension.version)
             task.platforms.convention(extension.platforms)
-            task.credentials.convention(extension.credentials)
+            task.consumerKey.convention(extension.consumerKey)
+            task.consumerToken.convention(extension.consumerToken)
         }
 
         // We should only announce or change the default after we've done a release

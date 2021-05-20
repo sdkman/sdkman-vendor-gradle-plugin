@@ -50,8 +50,8 @@ abstract class AbstractIntegrationSpec extends Specification {
                 .withPluginClasspath()
                 .forwardOutput()
                 .withEnvironment([
-                        "ORG_GRADLE_PROJECT_SDKMANUsername": "SOME_KEY",
-                        "ORG_GRADLE_PROJECT_SDKMANPassword": "SOME_TOKEN"])
+                        "SDKMAN_KEY": "SOME_KEY",
+                        "SDKMAN_TOKEN": "SOME_TOKEN"])
                 .withArguments(arguments)
     }
 
