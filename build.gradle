@@ -9,7 +9,6 @@ archivesBaseName = 'sdkman-vendor-gradle-plugin'
 
 repositories {
     jcenter()
-    maven { url 'https://jitpack.io' }
 }
 
 java {
