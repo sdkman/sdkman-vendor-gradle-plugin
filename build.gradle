@@ -7,9 +7,6 @@ plugins {
 group = 'io.sdkman'
 archivesBaseName = 'sdkman-vendor-gradle-plugin'
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
-
 repositories {
     jcenter()
     maven { url 'https://jitpack.io' }
@@ -17,6 +14,9 @@ repositories {
 
 java {
     withSourcesJar()
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
 }
 
 dependencies {
