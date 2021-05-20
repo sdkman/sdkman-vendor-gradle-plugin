@@ -45,7 +45,7 @@ abstract class AbstractIntegrationSpec extends Specification {
     }
 
     private GradleRunner createRunner(String... arguments) {
-        GradleRunner.create()
+        GradleRunner runner = GradleRunner.create()
                 .withProjectDir(projectDir.root)
                 .withPluginClasspath()
                 .forwardOutput()
@@ -53,6 +53,11 @@ abstract class AbstractIntegrationSpec extends Specification {
                         "SDKMAN_KEY": "SOME_KEY",
                         "SDKMAN_TOKEN": "SOME_TOKEN"])
                 .withArguments(arguments)
+        String gradleVersionForTest = System.getProperty("gradle.testing.version")
+        if (gradleVersionForTest) {
+            runner.withGradleVersion(gradleVersionForTest)
+        }
+        return runner
     }
 
     protected String getApiUrl() {
