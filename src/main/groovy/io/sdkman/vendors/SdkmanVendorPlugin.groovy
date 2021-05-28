@@ -8,6 +8,7 @@ import io.sdkman.vendors.tasks.SdkReleaseVersion
 import io.sdkman.vendors.tasks.SdkmanVendorBaseTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 
 @CompileStatic
 class SdkmanVendorPlugin implements Plugin<Project> {
@@ -22,7 +23,7 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         extension.platforms.convention(extension.url.map({ url -> [UNIVERSAL: url] }))
 
         // Wire extension into tasks
-        project.tasks.withType(SdkmanVendorBaseTask).configureEach { task ->
+        project.tasks.withType(SdkmanVendorBaseTask).configureEach { SdkmanVendorBaseTask task ->
             task.apiUrl.convention(extension.apiUrl)
             task.candidate.convention(extension.candidate)
             task.version.convention(extension.version)
@@ -32,10 +33,10 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         }
 
         // We should only announce or change the default after we've done a release
-        project.tasks.withType(SdkDefaultVersion).configureEach { task ->
+        project.tasks.withType(SdkDefaultVersion).configureEach { Task task ->
             task.shouldRunAfter(project.tasks.withType(SdkReleaseVersion))
         }
-        project.tasks.withType(SdkAnnounceVersion).configureEach { task ->
+        project.tasks.withType(SdkAnnounceVersion).configureEach { Task task ->
             task.shouldRunAfter(project.tasks.withType(SdkReleaseVersion))
         }
 
