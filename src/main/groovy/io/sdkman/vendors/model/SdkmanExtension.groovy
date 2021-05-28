@@ -21,17 +21,4 @@ abstract class SdkmanExtension {
     abstract MapProperty<String, String> getPlatforms()
 
     abstract Property<String> getHashtag()
-
-    @Override
-    String toString() {
-        return "SdkmanExtension{" +
-                "api='" + apiUrl.getOrNull() + '\'' +
-                ", credentials available?='" + (consumerKey.isPresent() && consumerToken.isPresent()) + '\'' +
-                ", candidate='" + candidate.getOrNull() + '\'' +
-                ", version='" + version.getOrNull() + '\'' +
-                ", platforms='" + platforms.getOrNull() + '\'' +
-                ", url='" + url.getOrNull() + '\'' +
-                ", hashtag='" + hashtag.getOrNull() + '\'' +
-                '}';
-    }
 }
