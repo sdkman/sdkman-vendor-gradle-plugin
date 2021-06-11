@@ -8,24 +8,10 @@ A Vendor is an organisation/individual that owns a technology, and wishes to pub
 
 ### Setup
 It requires some configuration in the ```build.gradle``` file of the project.
-```groovy
-	buildscript {
-	  repositories {
-		maven {
-		  url "https://plugins.gradle.org/m2/"
-		}
-	  }
-	  dependencies {
-		classpath "io.sdkman:gradle-sdkvendor-plugin:2.0.0"
-	  }
-	}
 
-	apply plugin: "io.sdkman.vendors"
-```
-For users of Gradle 2.1 or greater:
 ```groovy
     plugins {
-      id "io.sdkman.vendors" version "2.0.0"
+      id "io.sdkman.vendors" version "3.0.0"
     }
 ```
 
@@ -34,9 +20,6 @@ of configuration are supported. The first is for UNIVERSAL binaries:
 
 ```groovy
     sdkman {
-        api = "https://vendors.sdkman.io"
-        consumerKey = "SOME_KEY"
-        consumerToken = "SOME_TOKEN"
         candidate = "grails"
         version = "x.y.z"
         url = "https://host/grails-x.y.z.zip"
@@ -48,9 +31,6 @@ The second type is for native platform-specific binaries:
 
 ```groovy
     sdkman {
-        api = "https://vendors.sdkman.io"
-        consumerKey = "SOME_KEY"
-        consumerToken = "SOME_TOKEN"
         candidate = "micronaut"
         version = "x.y.z"
         platforms = [
@@ -68,13 +48,28 @@ We currently support the following platforms:
 * `LINUX_64`
 * `LINUX_32`
 
+By default, the plugin communicates with the `https://vendors.sdkman.io` service.
+
 #### Credentials
 
 The credentials for Vendors consisting of a security key and token can be obtained by raising an [Issue on Github](https://github.com/sdkman/sdkman-vendor-gradle-plugin).
 
+You can explicitly set your key and token from a Gradle property or environment variable.
+
+```groovy
+    sdkman {
+        consumerKey = "SOME_KEY"
+        consumerToken = "SOME_TOKEN"
+    }
+```
+
+By default, the plugin looks for your credentials in the `SDKMAN_KEY` and `SDKMAN_TOKEN` environment variables.
+
 #### Other Config
 
 All configuration above such as credentials, `candidate`, `version`, `url` and `hashtag` may be populated dynamically in the build.
+
+`candidate` and `version` are required. `url` is required if you do not set `platforms`.
 
 ## Gradle Tasks
 
