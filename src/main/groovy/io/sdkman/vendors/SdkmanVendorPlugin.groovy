@@ -17,14 +17,14 @@ class SdkmanVendorPlugin implements Plugin<Project> {
         SdkmanExtension extension = project.extensions.create("sdkman", SdkmanExtension)
 
         // Default values for the sdkman extension
-        extension.apiUrl.convention("https://vendors.sdkman.io")
+        extension.api.convention("https://vendors.sdkman.io")
         extension.consumerKey.convention(project.providers.environmentVariable("SDKMAN_KEY"))
         extension.consumerToken.convention(project.providers.environmentVariable("SDKMAN_TOKEN"))
         extension.platforms.convention(extension.url.map({ url -> [UNIVERSAL: url] }))
 
         // Wire extension into tasks
         project.tasks.withType(SdkmanVendorBaseTask).configureEach { SdkmanVendorBaseTask task ->
-            task.apiUrl.convention(extension.apiUrl)
+            task.apiUrl.convention(extension.api)
             task.candidate.convention(extension.candidate)
             task.version.convention(extension.version)
             task.platforms.convention(extension.platforms)

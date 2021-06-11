@@ -9,7 +9,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 
-class PluginSpec extends Specification{
+class PluginSpec extends Specification {
 
     public static final String PLUGIN_ID = 'io.sdkman.vendors'
 
@@ -31,6 +31,6 @@ class PluginSpec extends Specification{
     def "should add extension"() {
         expect:
         project.extensions.sdkman
-        project.extensions.sdkman.apiUrl.get() == "https://vendors.sdkman.io"
+        project.extensions.sdkman.api.get() == "https://vendors.sdkman.io"
     }
 }

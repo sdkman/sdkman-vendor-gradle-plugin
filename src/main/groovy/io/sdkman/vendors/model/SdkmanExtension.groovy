@@ -6,7 +6,7 @@ import org.gradle.api.provider.Property
 
 @CompileStatic
 abstract class SdkmanExtension {
-    abstract Property<String> getApiUrl()
+    abstract Property<String> getApi()
 
     abstract Property<String> getConsumerKey()
 

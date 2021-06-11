@@ -31,7 +31,7 @@ abstract class AbstractIntegrationSpec extends Specification {
             }
             
             sdkman {
-                apiUrl = "${apiUrl}"
+                api = "${apiUrl}"
             }
         """
     }
