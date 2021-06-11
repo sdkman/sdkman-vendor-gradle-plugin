@@ -24,14 +24,20 @@ abstract class AbstractIntegrationSpec extends Specification {
         settingsFile = projectDir.newFile('settings.gradle')
         settingsFile << "rootProject.name = 'release-test'"
 
-        buildFile = projectDir.newFile('build.gradle')
+        if (dsl == Dsl.GROOVY) {
+            buildFile = projectDir.newFile('build.gradle')
+        } else {
+            buildFile = projectDir.newFile('build.gradle.kts')
+        }
+
+        // This needs to be written so that it works in both DSLs
         buildFile << """
             plugins {
-                id 'io.sdkman.vendors'
+                id("io.sdkman.vendors")
             }
             
             sdkman {
-                api = "${apiUrl}"
+                api.set("${apiUrl}")
             }
         """
     }
@@ -62,5 +68,13 @@ abstract class AbstractIntegrationSpec extends Specification {
 
     protected String getApiUrl() {
         api.baseUrl()
+    }
+
+    enum Dsl {
+        KOTLIN, GROOVY
+    }
+
+    protected Dsl getDsl() {
+        return Dsl.GROOVY
     }
 }
