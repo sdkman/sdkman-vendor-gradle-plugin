@@ -44,9 +44,13 @@ The second type is for native platform-specific binaries:
 
 We currently support the following platforms:
 * `MAC_OSX`
+* `MAC_ARM64`
 * `WINDOWS_64`
-* `LINUX_64`
 * `LINUX_32`
+* `LINUX_64`
+* `LINUX_ARM32SF` (ARM Soft Float)
+* `LINUX_ARM32HF` (ARM Hard Float)
+* `LINUX_ARM64`
 
 By default, the plugin communicates with the `https://vendors.sdkman.io` service.
 
